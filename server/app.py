@@ -71,6 +71,18 @@ class UsersByID(Resource):
         else:
             response_body = {'error': 'User not found'}
             return response_body, 404
+        
+    def delete(self, id):
+        user = User.query.filter_by(id=id).first()
+        if user:
+            db.session.delete(user)
+            db.session.commit()
+            response_body= ''
+            return response_body, 204
+        else: 
+            response_body = {'error': 'User not found'}
+            return response_body, 404
+
 
 
 api.add_resource(UsersByID,'/users/<int:id>')
@@ -119,6 +131,17 @@ class CommentsByID(Resource):
             response = make_response(comment_schema.dump(comment), 202)
             return response
         else:
+            response_body = {'error': 'Comment not found'}
+            return response_body, 404
+        
+    def delete(self, id):
+        comment = Comment.query.filter_by(id=id).first()
+        if comment:
+            db.session.delete(comment)
+            db.session.commit()
+            response_body= ''
+            return response_body, 204
+        else: 
             response_body = {'error': 'Comment not found'}
             return response_body, 404
 
