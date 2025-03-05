@@ -108,6 +108,20 @@ class CommentsByID(Resource):
         response = comment_schema.dump(comment), 200
         return  response
     
+    def patch(self, id):
+        comment = Comment.query.filter_by(id=id).first()
+        data = request.get_json()
+        if comment:
+            for attr, value, in data.items():
+                setattr(comment, attr, value)
+            db.session.add(comment)
+            db.session.commit()
+            response = make_response(comment_schema.dump(comment), 202)
+            return response
+        else:
+            response_body = {'error': 'Comment not found'}
+            return response_body, 404
+
 api.add_resource(CommentsByID,'/comments/<int:id>')
 
 class Replies(Resource):
@@ -143,6 +157,20 @@ class RepliesByID(Resource):
         reply = Reply.query.filter_by(id=id).first()
         response = reply_schema.dump(reply), 200
         return response
+    
+    def patch(self, id):
+        reply = Reply.query.filter_by(id=id).first()
+        data = request.get_json()
+        if reply:
+            for attr, value, in data.items():
+                setattr(reply, attr, value)
+            db.session.add(reply)
+            db.session.commit()
+            response = make_response(reply_schema.dump(reply), 202)
+            return response
+        else:
+            response_body = {'error': 'Reply not found'}
+            return response_body, 404
     
 api.add_resource(RepliesByID,'/replies/<int:id>')
 
