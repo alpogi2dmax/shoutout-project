@@ -56,6 +56,23 @@ class UsersByID(Resource):
         response = make_response(user_schema.dump(user), 200)
         return response
 
+    def patch(self, id):
+        user = User.query.filter_by(id=id).first()
+        data = request.get_json()
+        if user:
+            if 'password' in data:
+                user.password_hash = data['password']
+            for attr, value, in data.items():
+                setattr(user, attr, value)
+            db.session.add(user)
+            db.session.commit()
+            response = make_response(user_schema.dump(user), 202)
+            return response
+        else:
+            response_body = {'error': 'User not found'}
+            return response_body, 404
+
+
 api.add_resource(UsersByID,'/users/<int:id>')
 
 class Comments(Resource):
@@ -100,6 +117,23 @@ class Replies(Resource):
         replies = Reply.query.all()
         response = replies_schema.dump(replies), 200
         return response
+    
+    def post(self):
+        try:
+            data = request.get_json()
+            reply = Reply(
+                reply = data['reply'],
+                comment_id = data['comment_id'],
+                user_id = data['user_id']
+            )
+            reply.created_date = datetime.now()
+            db.session.add(reply)
+            db.session.commit()
+            response = make_response(reply_schema.dump(reply), 201)
+            return response
+        except Exception as e:
+            response_body = {'errors': [str(e)]}
+            return response_body, 400
     
 api.add_resource(Replies,'/replies')
 
