@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { CommentProvider } from "../context/comment";
 
 function App() {
-  return <h1>Project Client</h1>;
+  return (
+    <div>
+      <CommentProvider>
+        <Outlet />
+      </CommentProvider>
+    </div>
+  )
 }
 
 export default App;

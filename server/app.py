@@ -268,8 +268,6 @@ class Login(Resource):
             response_body = {'error': 'Invalid username and password'}
             return response_body, 401
         
-    
-        
 api.add_resource(Login, '/login')
 
 class Logout(Resource):
