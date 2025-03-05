@@ -194,6 +194,17 @@ class RepliesByID(Resource):
         else:
             response_body = {'error': 'Reply not found'}
             return response_body, 404
+
+    def delete(self, id):
+        reply = Reply.query.filter_by(id=id).first()
+        if reply:
+            db.session.delete(reply)
+            db.session.commit()
+            response_body= ''
+            return response_body, 204
+        else: 
+            response_body = {'error': 'Reply not found'}
+            return response_body, 404
     
 api.add_resource(RepliesByID,'/replies/<int:id>')
 
