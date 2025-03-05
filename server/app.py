@@ -3,7 +3,7 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request, make_response
+from flask import request, make_response, session
 from flask_restful import Resource
 
 # Local imports
@@ -207,6 +207,79 @@ class RepliesByID(Resource):
             return response_body, 404
     
 api.add_resource(RepliesByID,'/replies/<int:id>')
+
+class SignUp(Resource):
+
+    def post(self):
+        try:
+            data = request.get_json()
+            user = User(
+                username = data['username'],
+                email = data['email'],
+                first_name = data['first_name'],
+                last_name = data['last_name'],
+                profile_pic = data['profile_pic']
+            )
+            user.password_hash = data['password']
+            db.session.add(user)
+            db.session.commit()
+            response = make_response(
+                user_schema.dump(user), 201)
+            return response
+        except:
+            response_body = {'errors': ['validation errors']}
+            return response_body, 400
+
+api.add_resource(SignUp, '/signup')
+
+class CheckSession(Resource):
+
+    def get(self):
+
+        user_id = session.get('user_id')
+
+        if user_id:
+               user = User.query.filter(User.id == user_id).first()
+               response = make_response(user_schema.dump(user), 200)
+               return response
+        else:
+            # Return a response that can be safely parsed as JSON
+            response_body = {"message": "No active session", "session": None}
+            response = make_response(response_body, 404)
+            return response
+
+api.add_resource(CheckSession, '/checksession')
+
+class Login(Resource):
+
+    def post(self):
+
+        username = request.get_json().get('username')
+        user = User.query.filter(User.username == username).first()
+
+        password = request.get_json()['password']
+
+        if user.authenticate(password):
+            session['user_id'] = user.id
+            response = make_response(
+                user_schema.dump(user), 200)
+            return response
+        else:
+            response_body = {'error': 'Invalid username and password'}
+            return response_body, 401
+        
+    
+        
+api.add_resource(Login, '/login')
+
+class Logout(Resource):
+
+    def delete(self):
+
+        session['user_id'] = None
+        return {}, 204
+    
+api.add_resource(Logout, '/logout')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
