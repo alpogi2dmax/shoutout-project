@@ -35,7 +35,6 @@ if __name__ == '__main__':
         )
         user1.password_hash = 'password'
         users.append(user1)
-        db.session.add_all(users)
         user2 = User(
             username='roronoazoro',
             email='roronoazoro@gmail.com',
@@ -45,6 +44,7 @@ if __name__ == '__main__':
         )
         user2.password_hash = 'password'
         users.append(user2)
+        db.session.add_all(users)
         db.session.commit()
 
         print("Seeding comments...")

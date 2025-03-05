@@ -1,6 +1,7 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
+from marshmallow import Schema, fields
 from sqlalchemy.orm import validates
 from sqlalchemy import CheckConstraint
 from email_validator import validate_email, EmailNotValidError
@@ -122,7 +123,7 @@ class UserSchema(ma.SQLAlchemySchema):
     last_name = ma.auto_field()
     email = ma.auto_field()
     profile_pic = ma.auto_field()
-    comments = ma.Nested( lambda: CommentSchema, many=True, only=('id', 'comment', 'created_date'))
+    comments = ma.Nested( lambda: CommentSchema, many=True, only=('id', 'comment', 'created_date', 'user', 'replies'))
 
     url = ma.Hyperlinks(
         {
@@ -145,7 +146,7 @@ class CommentSchema(ma.SQLAlchemySchema):
     comment = ma.auto_field()
     created_date = ma.auto_field()
     user = ma.Nested(lambda: UserSchema, only=('id', 'first_name', 'last_name', 'profile_pic'))
-    replies = ma.Nested(lambda: ReplySchema, many=True, only=('id', 'reply', 'created_date'))
+    replies = ma.Nested(lambda: ReplySchema, many=True, only=('id', 'reply', 'created_date', 'user'))
 
     url = ma.Hyperlinks(
         {
