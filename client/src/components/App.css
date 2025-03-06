@@ -1,0 +1,44 @@
+.tweet-card {
+    border: 1px solid #e1e8ed;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px 0;
+    max-width: 500px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.tweet-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.profile-pic {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.tweet-date {
+    color: #657786;
+    font-size: 0.9rem;
+}
+
+.tweet-content {
+    font-size: 1rem;
+    line-height: 1.4;
+    color: #14171a;
+}

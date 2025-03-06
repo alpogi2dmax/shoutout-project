@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 const CommentContext = React.createContext()
 
 function CommentProvider({children}) {
-    const [ comments, setComments] = useState(null)
+    const [ comments, setComments] = useState([])
 
     useEffect(() => {
         fetch('/comments')
