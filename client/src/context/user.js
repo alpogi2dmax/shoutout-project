@@ -23,8 +23,17 @@ function UserProvider({children}) {
         .catch(error => console.log('Fetch error:', error));
     }, [])
 
+    const handleLogout = () => {
+        fetch(`/logout`, {
+          method: "DELETE",
+        })
+        .then(() => {
+          setUser(null)
+        })
+      }
+
     return (
-        <UserContext.Provider value={{user, setUser}}>
+        <UserContext.Provider value={{ user, setUser, handleLogout }}>
             {children}
         </UserContext.Provider>
     )
