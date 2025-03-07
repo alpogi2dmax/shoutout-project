@@ -10,7 +10,7 @@
 
 .tweet-header {
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     margin-bottom: 10px;
 }
 
@@ -62,3 +62,11 @@
     vertical-align: middle; /* Align icon with text */
     color: #e0245e; /* Heart color */
   }
+
+  .textarea-custom {
+    width: 100%;          /* Full width of the container */
+    height: 100px;        /* Fixed height */
+    border: none;         /* No border */
+    outline: none;        /* No focus outline */
+    resize: none;         /* Disable resizing */
+}

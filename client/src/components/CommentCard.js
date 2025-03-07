@@ -40,7 +40,7 @@ function CommentCard({comment}) {
                     </svg>
                     Like
                 </p>
-                <p>Comment</p>
+                <p>Reply</p>
             </div>
         </div>
     );

@@ -3,6 +3,7 @@ import { CommentContext } from '../context/comment';
 import CommentList from './CommentList';
 import { UserContext } from '../context/user';
 import Login from './Login';
+import CreateComment from './CreateComment';
 
 function Home() {
     
@@ -13,6 +14,7 @@ function Home() {
     if (user) {
         return (
             <div>
+                <CreateComment />
                 <CommentList comments={comments}/>
             </div>
         )
