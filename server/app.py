@@ -91,7 +91,7 @@ class Comments(Resource):
 
     def get(self):
 
-        comments = Comment.query.all()
+        comments = Comment.query.order_by(Comment.created_date.desc()).all()
         response = comments_schema.dump(comments), 200
         return response
     

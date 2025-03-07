@@ -1,11 +1,13 @@
 import { useContext } from "react"
 import { UserContext } from "../context/user"
+import { CommentContext } from "../context/comment";
 import { useFormik } from "formik"
 import * as yup from "yup";
 
 function CreateComment() {
 
     const { user } = useContext(UserContext)
+    const { comments, setComments } = useContext(CommentContext)
 
     const formSchema = yup.object().shape({
         comment: yup.string().min(1, 'Must be more than 1 character').max(145, 'Must be less than 145 characters.'),
@@ -33,6 +35,7 @@ function CreateComment() {
             .then((r) => r.json())
             .then((comment) => {
                 console.log(comment)
+                setComments([comment, ...comments])
                 resetForm()
             })
         },
