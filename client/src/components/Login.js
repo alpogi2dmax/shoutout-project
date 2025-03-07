@@ -1,36 +1,36 @@
 import LoginForm from "./LoginForm"
-// import SignUpForm from "./SignUpForm";
+import SignUpForm from "./SignUpForm";
 import React, { useEffect, useState } from "react";
 
 function Login() {
 
-    // const [showLogin, setShowLogin] = useState(true)
+    const [showLogin, setShowLogin] = useState(true)
 
     return (
         <div>
-            {/* {showLogin ? ( */}
+            {showLogin ? (
                 <>
                     <LoginForm />
-                    {/* <br></br>
+                    <br></br>
                     <p>
                         Don't have an account? &nbsp;
                         <button onClick={() => setShowLogin(false)}>
                             Sign Up
                         </button>
-                    </p> */}
+                    </p>
                 </>   
-            {/* ) : (
+            ) : (
                 <>
                     <SignUpForm />
                     <br></br>
                     <p>
                         Already have an account? &nbsp;
-                        <button className='button-23' onClick={() => setShowLogin(true)}>
+                        <button onClick={() => setShowLogin(true)}>
                             Log In
                         </button>
                     </p>
                 </>
-            )} */}
+            )}
         </div>
     )
 }
