@@ -1,4 +1,4 @@
-.tweet-card {
+.shoutout-card {
     border: 1px solid #e1e8ed;
     border-radius: 10px;
     padding: 15px;
@@ -8,13 +8,13 @@
     background-color: #fff;
 }
 
-.tweet-header {
+.shoutout-header {
     display: flex;
     /* align-items: center; */
     margin-bottom: 10px;
 }
 
-.profile-pic {
+.shoutout-pic {
     border-radius: 50%;
     width: 50px;
     height: 50px;
@@ -32,25 +32,25 @@
     font-weight: bold;
 }
 
-.tweet-date {
+.shoutout-date {
     color: #657786;
     font-size: 0.9rem;
 }
 
-.tweet-content {
+.shoutout-content {
     font-size: 1rem;
     line-height: 1.4;
     color: #14171a;
 }
 
-.tweet-actions {
+.shoutout-actions {
     display: flex;
     flex-direction: row; /* Arrange items in a row */
     gap: 20px; /* Add space between items */
     margin-top: 10px;
 }
 
-.tweet-actions p {
+.shoutout-actions p {
     margin: 0; /* Remove any default margin */
     font-weight: bold;
     cursor: pointer;
@@ -69,4 +69,64 @@
     border: none;         /* No border */
     outline: none;        /* No focus outline */
     resize: none;         /* Disable resizing */
+}
+
+.reply-card {
+    border: 1px solid #e1e8ed;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px 0;
+    margin-left: 10px;
+    max-width: 490px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f1ecec;
+}
+
+.reply-header {
+    display: flex;
+    /* align-items: center; */
+    margin-bottom: 10px;
+}
+
+.reply-pic {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.reply-date {
+    color: #657786;
+    font-size: 0.9rem;
+}
+
+.reply-content {
+    font-size: 1rem;
+    line-height: 1.4;
+    color: #14171a;
+}
+
+.reply-actions {
+    display: flex;
+    flex-direction: row; /* Arrange items in a row */
+    gap: 20px; /* Add space between items */
+    margin-top: 10px;
+}
+
+.reply-actions p {
+    margin: 0; /* Remove any default margin */
+    font-weight: bold;
+    cursor: pointer;
+    color: #1DA1F2;
 }

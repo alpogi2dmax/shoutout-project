@@ -42,9 +42,9 @@ function CreateComment() {
     })
 
     return (
-        <div className = 'tweet-card'>
-            <div className='tweet-header'>
-                <img className='profile-pic' src={user.profile_pic}/>
+        <div className = 'shoutout-card'>
+            <div className='shoutout-header'>
+                <img className='shoutout-pic' src={user.profile_pic}/>
                 <form onSubmit={formik.handleSubmit}>
                     <textarea className='textarea-custom' type='textarea' name='comment' id='comment' value={formik.values.comment} placeholder="What's happening..." onChange={formik.handleChange} />
                     <p style={{color: "red" }}> {formik.errors.comment}</p>

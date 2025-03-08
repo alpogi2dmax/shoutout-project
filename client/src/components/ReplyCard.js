@@ -1,9 +1,8 @@
-import './App.css'
-import { Link } from 'react-router-dom';
 
-function CommentCard({comment}) {
 
-    const createdDate = new Date(comment.created_date)
+function ReplyCard({reply}) {
+
+    const createdDate = new Date(reply.created_date)
 
     const options = { month: 'long' };
     const month = new Intl.DateTimeFormat('en-US', options).format(createdDate);
@@ -15,20 +14,18 @@ function CommentCard({comment}) {
     console.log(formattedDate)
 
     return (
-        <div className='shoutout-card'>
-            <div className='shoutout-header'>
-                <img className='shoutout-pic' src={comment.user.profile_pic} alt='Profile' />
+        <div className='reply-card'>
+            <div className='reply-header'>
+                <img className='reply-pic' src={reply.user.profile_pic} alt='Profile' />
                 <div className='user-info'>
-                    <h2 className='user-name'>{comment.user.first_name} {comment.user.last_name}</h2>
-                    <small className='shoutout-date'>{formattedDate}</small>
+                    <h2 className='user-name'>{reply.user.first_name} {reply.user.last_name}</h2>
+                    <small className='reply-date'>{formattedDate}</small>
                 </div>
             </div>
-            <div className='shoutout-content'>
-                <Link to={`/comments/${comment.id}`}>
-                    <p>{comment.comment}</p>
-                </Link>
+            <div className='reply-content'>
+                <p>{reply.reply}</p>
             </div>
-            <div className='shoutout-actions'>
+            <div className='reply-actions'>
                 <p>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -46,8 +43,7 @@ function CommentCard({comment}) {
                 <p>Reply</p>
             </div>
         </div>
-    );
-    
+    )
 }
 
-export default CommentCard
+export default ReplyCard
