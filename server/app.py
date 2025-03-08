@@ -151,7 +151,7 @@ class Replies(Resource):
 
     def get(self):
 
-        replies = Reply.query.all()
+        replies = Reply.query.order_by(Reply.created_date.desc()).all()
         response = replies_schema.dump(replies), 200
         return response
     

@@ -146,7 +146,8 @@ class CommentSchema(ma.SQLAlchemySchema):
     comment = ma.auto_field()
     created_date = ma.auto_field()
     user = ma.Nested(lambda: UserSchema, only=('id', 'first_name', 'last_name', 'profile_pic'))
-    replies = ma.Nested(lambda: ReplySchema, many=True, only=('id', 'reply', 'created_date', 'user'))
+    # replies = ma.Nested(lambda: ReplySchema, many=True, only=('id', 'reply', 'created_date', 'user'))
+    replies = ma.Method("get_replies")
 
     url = ma.Hyperlinks(
         {
@@ -156,6 +157,14 @@ class CommentSchema(ma.SQLAlchemySchema):
             "collection": ma.URLFor("comments"),
         }
     )
+
+    def get_replies(self, comment):
+        replies = comment.replies
+        replies_schema = ReplySchema(many=True)
+        # Use sorted with reverse=True to sort in descending order
+        sorted_replies = sorted(replies, key=lambda x: x.created_date, reverse=True)
+        reply_data = replies_schema.dump(sorted_replies)
+        return reply_data
 
 comment_schema = CommentSchema()
 comments_schema = CommentSchema(many=True)

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import ReplyList from "./ReplyList"
+import CreateReply from "./CreateReply"
 
 function CommentPage() {
 
@@ -71,6 +72,7 @@ function CommentPage() {
                     <p>Reply</p>
                 </div>
             </div>
+            <CreateReply comment={comment} setComment={setComment}/>
             <ReplyList replies={comment.replies}/>
         </div>
     )

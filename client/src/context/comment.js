@@ -11,8 +11,12 @@ function CommentProvider({children}) {
         .then(data => setComments(data))
     }, [])
 
+    const handleLogoutComments = () => {
+          setComments([])
+      }
+
     return (
-        <CommentContext.Provider value={{comments, setComments}}>
+        <CommentContext.Provider value={{comments, setComments, handleLogoutComments}}>
             {children}
         </CommentContext.Provider>
     )

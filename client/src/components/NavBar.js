@@ -1,15 +1,18 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { UserContext } from '../context/user'
+import { CommentContext } from '../context/comment'
 
 
 function NavBar() {
 
     const navigate = useNavigate()
-    const { user, handleLogout } = useContext(UserContext)
+    const { user, handleLogoutUser } = useContext(UserContext)
+    const { handleLogoutComments } = useContext(CommentContext)
 
     const handleLogOutClick = () => {
-        handleLogout()
+        handleLogoutUser()
+        handleLogoutComments()
         navigate('/')
     }
 
