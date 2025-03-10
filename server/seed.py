@@ -9,7 +9,7 @@ from faker import Faker
 
 # Local imports
 from app import app
-from models import db, User, Comment, Reply
+from models import db, User, Comment, Reply, Like
 
 if __name__ == '__main__':
     fake = Faker()
@@ -192,6 +192,16 @@ if __name__ == '__main__':
         )
         replies.append(reply1)
         db.session.add_all(replies)
+
+        print("Seeding likes...")
+        likes = []
+        like1 = Like(
+            created_date=datetime.now(),
+            comment_liker_id = 2,
+            liked_comment_id = 1
+        )
+        likes.append(like1)
+        db.session.add_all(likes)
         db.session.commit()
 
         print("Seeding done!")

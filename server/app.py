@@ -9,7 +9,7 @@ from flask_restful import Resource
 # Local imports
 from config import app, db, api, datetime
 # Add your model imports
-from models import User, Comment, Reply, user_schema, users_schema, comment_schema, comments_schema, reply_schema, replies_schema
+from models import User, Comment, Reply, Like, user_schema, users_schema, comment_schema, comments_schema, reply_schema, replies_schema, like_schema, likes_schema
 
 
 
@@ -207,6 +207,41 @@ class RepliesByID(Resource):
             return response_body, 404
     
 api.add_resource(RepliesByID,'/replies/<int:id>')
+
+class Likes(Resource):
+
+    def post(self):
+        try:
+            data = request.get_json()
+            like = Like(
+                comment_liker_id = data['comment_liker_id'],
+                liked_comment_id = data['liked_comment_id']
+            )
+            like.created_date = datetime.now()
+            db.session.add(like)
+            db.session.commit()
+            response = make_response(like_schema.dump(like), 201)
+            return response
+        except Exception as e:
+            response_body = {'errors': [str(e)]}
+            return response_body, 400
+    
+api.add_resource(Likes,'/likes')
+
+class LikesByID(Resource):
+
+    def delete(self, id):
+        like = Like.query.filter_by(id=id).first()
+        if like:
+            db.session.delete(like)
+            db.session.commit()
+            response_body= ''
+            return response_body, 204
+        else: 
+            response_body = {'error': 'Like not found'}
+            return response_body, 404
+    
+api.add_resource(LikesByID,'/likes/<int:id>')
 
 class SignUp(Resource):
 
