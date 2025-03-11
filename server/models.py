@@ -174,6 +174,7 @@ class CommentSchema(ma.SQLAlchemySchema):
     # replies = ma.Nested(lambda: ReplySchema, many=True, only=('id', 'reply', 'created_date', 'user'))
     replies = ma.Method("get_replies")
     comment_likers = ma.Nested(lambda: UserSchema, many=True, only=('id', 'first_name', 'last_name'))
+    likes = ma.Nested(lambda: LikeSchema, many=True, only=('id', 'comment_liker'))
 
     url = ma.Hyperlinks(
         {
