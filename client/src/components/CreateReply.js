@@ -6,8 +6,6 @@ import * as yup from "yup";
 
 function CreateReply({comment, setComment}) {
 
-    console.log(comment)
-
     const { user } = useContext(UserContext)
     const { comments, setComments } = useContext(CommentContext)
 

@@ -2,10 +2,6 @@ import ReplyCard from "./ReplyCard"
 
 function ReplyList({replies}) {
 
-
-
-    console.log(replies)
-
     return (
         <div>
             <h4>Replies</h4>

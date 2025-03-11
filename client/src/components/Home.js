@@ -15,7 +15,7 @@ function Home() {
         return (
             <div>
                 <CreateComment />
-                <CommentList comments={comments}/>
+                <CommentList comments={comments} user={user}/>
             </div>
         )
     } else {

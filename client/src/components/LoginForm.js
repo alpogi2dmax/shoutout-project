@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { UserContext } from '../context/user';
+import { CommentContext } from '../context/comment';
 
 
 function LoginForm() {

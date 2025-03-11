@@ -11,8 +11,6 @@ function ReplyCard({reply}) {
 
     const formattedDate = `${month} ${day}, ${year}`
 
-    console.log(formattedDate)
-
     return (
         <div className='reply-card'>
             <div className='reply-header'>

@@ -15,8 +15,15 @@ function CommentProvider({children}) {
           setComments([])
       }
 
+    const updateComments = (updatedComment) => {
+        const updatedComments = comments.map(c =>
+            c.id === updatedComment.id ? updatedComment : c
+        )
+        setComments(updatedComments)
+    }
+
     return (
-        <CommentContext.Provider value={{comments, setComments, handleLogoutComments}}>
+        <CommentContext.Provider value={{comments, setComments, handleLogoutComments, updateComments}}>
             {children}
         </CommentContext.Provider>
     )

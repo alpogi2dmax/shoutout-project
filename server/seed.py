@@ -21,6 +21,7 @@ if __name__ == '__main__':
         User.query.delete()
         Comment.query.delete()
         Reply.query.delete()
+        Like.query.delete()
         db.session.commit()
 
 
