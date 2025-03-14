@@ -19,13 +19,13 @@ function CreateReply({comment, setComment}) {
             reply: "",
             created_date: "",
             comment_id: "",
-            user_id: ""
+            replier_id: ""
         },
         validationSchema: formSchema,
         onSubmit: (values, formHelpers) => {
             const { resetForm } = formHelpers
             values.created_date = new Date().toISOString();
-            values.user_id = user.id;
+            values.replier_id = user.id;
             values.comment_id = comment.id
             fetch("/replies", {
                 method: "POST",

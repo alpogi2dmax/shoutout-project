@@ -1,12 +1,14 @@
-import './App.css'
-import React, {useContext} from 'react';
-import { Link } from 'react-router-dom';
-import { CommentContext } from '../context/comment';
+import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { UserContext } from "../context/user";
+import { CommentContext } from "../context/comment";
 
-function CommentCard({comment, user}) {
+function UserCommentCard({comment, onUpdateComments}) {
 
+    const {user} = useContext(UserContext)
     const {updateComments} = useContext(CommentContext)
 
+    console.log(user)
 
     const createdDate = new Date(comment.created_date)
 
@@ -17,7 +19,7 @@ function CommentCard({comment, user}) {
 
     const formattedDate = `${month} ${day}, ${year}`
 
-    console.log(comment.commenter)
+    console.log(comment.likes)
 
     const handleLikeClick = () => {
         if ((comment.likes || []).map(x => x.comment_liker?.id).includes(user.id)) {
@@ -26,14 +28,13 @@ function CommentCard({comment, user}) {
                 method: "DELETE",
             })
             .then(() => {
-                const updatedComment = {
-                    ...comment,
-                    likes: comment.likes.filter(x => x.comment_liker.id !== user.id)
-                }
-                updateComments(updatedComment)
+            const updatedComment = {
+                ...comment,
+                likes: comment.likes.filter(x => x.comment_liker.id !== user.id)
+            }
+            updateComments(updatedComment)
+            onUpdateComments(updatedComment)
             })  
-            
-        
         } else {
             let values = {
                 comment_liker_id: user.id,
@@ -53,6 +54,7 @@ function CommentCard({comment, user}) {
                     likes: [...comment.likes, like]
                 }
                 updateComments(updatedComment)
+                onUpdateComments(updatedComment)
                 
             })
         }
@@ -61,7 +63,7 @@ function CommentCard({comment, user}) {
 
     return (
         <div className='shoutout-card'>
-             <Link to={`/users/${comment.commenter.id}`}>
+             {/* <Link to={`users/${comment.user.id}`}> */}
                 <div className='shoutout-header'>
                     <img className='shoutout-pic' src={comment.commenter.profile_pic} alt='Profile' />
                     <div className='user-info'>
@@ -69,13 +71,14 @@ function CommentCard({comment, user}) {
                         <small className='shoutout-date'>{formattedDate}</small>
                     </div>
                 </div>
-            </Link>
+            {/* </Link> */}
             <div className='shoutout-content'>
                 <Link to={`/comments/${comment.id}`}>
                     <p>{comment.comment}</p>
                 </Link>
             </div>
             <div className='shoutout-actions'>
+                {/* <p> */}
                 <p onClick={handleLikeClick}>
                     {/* <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -97,4 +100,4 @@ function CommentCard({comment, user}) {
     
 }
 
-export default CommentCard
+export default UserCommentCard

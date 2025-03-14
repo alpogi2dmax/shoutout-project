@@ -1,6 +1,6 @@
 
 
-function ReplyCard({reply}) {
+function UserReplyCard({reply}) {
 
     const createdDate = new Date(reply.created_date)
 
@@ -11,9 +11,7 @@ function ReplyCard({reply}) {
 
     const formattedDate = `${month} ${day}, ${year}`
 
-    console.log(reply)
-
-    return (
+    return(
         <div className='reply-card'>
             <div className='reply-header'>
                 <img className='reply-pic' src={reply.replier.profile_pic} alt='Profile' />
@@ -46,4 +44,4 @@ function ReplyCard({reply}) {
     )
 }
 
-export default ReplyCard
+export default UserReplyCard

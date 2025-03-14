@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 import ReplyList from "./ReplyList"
 import CreateReply from "./CreateReply"
 import { UserContext } from "../context/user"
@@ -88,13 +88,15 @@ function CommentPage() {
     return (
         <div>
             <div className='shoutout-card'>
-                <div className='shoutout-header'>
-                    <img className='shoutout-pic' src={comment.user.profile_pic} alt='Profile' />
-                    <div className='user-info'>
-                        <h2 className='user-name'>{comment.user.first_name} {comment.user.last_name}</h2>
-                        <small className='shoutout-date'>{formattedDate}</small>
+                <Link to={`/users/${comment.commenter.id}`}>
+                    <div className='shoutout-header'>
+                        <img className='shoutout-pic' src={comment.commenter.profile_pic} alt='Profile' />
+                        <div className='user-info'>
+                            <h2 className='user-name'>{comment.commenter.first_name} {comment.commenter.last_name}</h2>
+                            <small className='shoutout-date'>{formattedDate}</small>
+                        </div>
                     </div>
-                </div>
+                </Link>
                 <div className='shoutout-content'>
                     <p>{comment.comment}</p>
                 </div>

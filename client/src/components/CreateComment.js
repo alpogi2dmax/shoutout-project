@@ -18,7 +18,7 @@ function CreateComment() {
         initialValues: {
             comment: "",
             created_date: "",
-            user_id: ""
+            commenter_id: ""
         },
         validationSchema: formSchema,
         onSubmit: (values, formHelpers) => {
