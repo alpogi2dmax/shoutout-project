@@ -9,7 +9,7 @@ from flask_restful import Resource
 # Local imports
 from config import app, db, api, datetime
 # Add your model imports
-from models import User, Comment, Reply, Like, user_schema, users_schema, comment_schema, comments_schema, reply_schema, replies_schema, like_schema, likes_schema
+from models import User, Comment, Reply, Like, ReplyLike, user_schema, users_schema, comment_schema, comments_schema, reply_schema, replies_schema, like_schema, likes_schema, reply_like_schema, reply_likes_schema
 
 
 
@@ -101,7 +101,7 @@ class Comments(Resource):
             data = request.get_json()
             comment = Comment(
                 comment = data['comment'],
-                commenter_id = data['user_id']
+                commenter_id = data['commenter_is']
             )
             comment.created_date = datetime.now()
             db.session.add(comment)
@@ -243,6 +243,41 @@ class LikesByID(Resource):
             return response_body, 404
     
 api.add_resource(LikesByID,'/likes/<int:id>')
+
+class ReplyLikes(Resource):
+
+    def post(self):
+        try:
+            data = request.get_json()
+            reply_like = ReplyLike(
+                reply_liker_id = data['reply_liker_id'],
+                liked_reply_id = data['liked_reply_id']
+            )
+            reply_like.created_date = datetime.now()
+            db.session.add(reply_like)
+            db.session.commit()
+            response = make_response(reply_like_schema.dump(reply_like), 201)
+            return response
+        except Exception as e:
+            response_body = {'errors': [str(e)]}
+            return response_body, 400
+    
+api.add_resource(ReplyLikes,'/reply_likes')
+
+class ReplyLikesByID(Resource):
+
+    def delete(self, id):
+        reply_like = ReplyLike.query.filter_by(id=id).first()
+        if reply_like:
+            db.session.delete(reply_like)
+            db.session.commit()
+            response_body= ''
+            return response_body, 204
+        else: 
+            response_body = {'error': 'Reply Like not found'}
+            return response_body, 404
+    
+api.add_resource(ReplyLikesByID,'/reply_likes/<int:id>')
 
 class SignUp(Resource):
 

@@ -46,6 +46,9 @@ class User(db.Model):
     likes = db.relationship('Like', back_populates='comment_liker', cascade='all, delete-orphan')
     liked_comments = association_proxy('likes', 'liked_comment')
 
+    reply_likes = db.relationship('ReplyLike', back_populates='reply_liker', cascade='all, delete-orphan')
+    liked_replies = association_proxy('reply_likes', 'liked_reply')
+
     #validation
     @validates('username')
     def validate_username(self, key, username):
@@ -111,6 +114,10 @@ class Reply(db.Model):
     comment_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
     comment = db.relationship('Comment', back_populates='replies')
 
+    #many to many relationship with User via likes
+    reply_likes = db.relationship('ReplyLike', back_populates='liked_reply', cascade='all, delete-orphan')
+    reply_likers = association_proxy('reply_likes', 'reply_liker')
+
     #add relationship with User
     replier_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     replier = db.relationship('User', back_populates='replies')
@@ -134,6 +141,19 @@ class Like(db.Model):
 
     comment_liker = db.relationship('User', back_populates='likes')
     liked_comment = db.relationship('Comment', back_populates='likes')
+
+class ReplyLike(db.Model):
+    __tablename__ = "reply_likes"
+
+    id = db.Column(db.Integer, primary_key=True)
+    created_date = db.Column(db.DateTime)
+
+    #add relationships:
+    reply_liker_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    liked_reply_id = db.Column(db.Integer, db.ForeignKey('replies.id'))
+
+    reply_liker = db.relationship('User', back_populates='reply_likes')
+    liked_reply = db.relationship('Reply', back_populates='reply_likes')
 
 
     
@@ -216,6 +236,7 @@ class ReplySchema(ma.SQLAlchemySchema):
     created_date = ma.auto_field()
     replier = ma.Nested(lambda: UserSchema, only=('id', 'first_name', 'last_name', 'profile_pic'))
     comment = ma.Nested(lambda: CommentSchema, only=('id', 'comment', 'created_date'))
+    reply_likes = ma.Nested(lambda: ReplyLikeSchema, many=True, only=('id', 'reply_liker'))
 
     url = ma.Hyperlinks(
         {
@@ -250,3 +271,25 @@ class LikeSchema(ma.SQLAlchemySchema):
 
 like_schema = LikeSchema()
 likes_schema = LikeSchema(many=True)
+
+class ReplyLikeSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = ReplyLike
+        load_instance = True
+
+    id = ma.auto_field()
+    created_date = ma.auto_field()
+    reply_liker = ma.Nested(lambda: UserSchema, only=('id', 'first_name', 'last_name'))
+    liked_reply = ma.Nested(lambda: ReplySchema, only=('id', 'reply', 'created_date'))
+
+    url = ma.Hyperlinks(
+        {
+            "self": ma.URLFor(
+                "replylikesbyid",
+                values=dict(id="<id>")),
+            "collection": ma.URLFor("replylikes"),
+        }
+    )
+
+reply_like_schema = ReplyLikeSchema()
+reply_likes_schema = ReplyLikeSchema(many=True)

@@ -9,7 +9,7 @@ from faker import Faker
 
 # Local imports
 from app import app
-from models import db, User, Comment, Reply, Like
+from models import db, User, Comment, Reply, Like, ReplyLike
 
 if __name__ == '__main__':
     fake = Faker()
@@ -22,6 +22,7 @@ if __name__ == '__main__':
         Comment.query.delete()
         Reply.query.delete()
         Like.query.delete()
+        ReplyLike.query.delete()
         db.session.commit()
 
 
