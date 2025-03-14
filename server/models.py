@@ -149,6 +149,8 @@ class UserSchema(ma.SQLAlchemySchema):
     email = ma.auto_field()
     profile_pic = ma.auto_field()
     comments = ma.Nested( lambda: CommentSchema, many=True, only=('id', 'comment', 'created_date', 'commenter', 'replies', 'likes'))
+    # replies = ma.Nested(lambda: ReplySchema, many=True, only=('id', 'reply', 'created_date', 'replier', 'comment'))
+    replies = ma.Method("get_replies")
 
     url = ma.Hyperlinks(
         {
@@ -158,6 +160,14 @@ class UserSchema(ma.SQLAlchemySchema):
             "collection": ma.URLFor("users"),
         }
     )
+
+    def get_replies(self, user):
+        replies = user.replies
+        replies_schema = ReplySchema(many=True)
+        # Use sorted with reverse=True to sort in descending order
+        sorted_replies = sorted(replies, key=lambda x: x.created_date, reverse=True)
+        reply_data = replies_schema.dump(sorted_replies)
+        return reply_data
 
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
