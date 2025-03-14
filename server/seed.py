@@ -124,61 +124,61 @@ if __name__ == '__main__':
         comment1 = Comment(
             comment="I am justice",
             created_date=datetime.now(),
-            user_id = 1
+            commenter_id = 1
         )
         comments.append(comment1)
         comment2 = Comment(
             comment="I am going to be the world's greatest swordsman!",
             created_date=datetime.now(),
-            user_id = 2
+            commenter_id = 2
         )
         comments.append(comment2)
         comment3 = Comment(
             comment="No one ever knows how it will turn out. So choose for yourself, whichever decision you will regret the least.",
             created_date=datetime.now(),
-            user_id = 3
+            commenter_id = 3
         )
         comments.append(comment3)
         comment4 = Comment(
             comment="Stand up and walk. Keep moving forward. You've got two good legs. So get up and use them. You're strong enough to make your own path.",
             created_date=datetime.now(),
-            user_id = 4
+            commenter_id = 4
         )
         comments.append(comment4)
         comment5 = Comment(
             comment="Throughout Heaven and Earth, I alone am the honored one.",
             created_date=datetime.now(),
-            user_id = 5
+            commenter_id = 5
         )
         comments.append(comment5)
         comment6 = Comment(
             comment="I planned every detail! I stacked the whole deck! That is a total lie, but it will drive Kars nuts.",
             created_date=datetime.now(),
-            user_id = 6
+            commenter_id = 6
         )
         comments.append(comment6)
         comment7 = Comment(
             comment="I will become the Pirate King!",
             created_date=datetime.now(),
-            user_id = 7
+            commenter_id = 7
         )
         comments.append(comment7)
         comment8 = Comment(
             comment="In the words of Regis Philbin: who wants to be a millionaire?",
             created_date=datetime.now(),
-            user_id = 8
+            commenter_id = 8
         )
         comments.append(comment8)
         comment9 = Comment(
             comment="Just because you die does not mean that the people you killed will come back to life...",
             created_date=datetime.now(),
-            user_id = 9
+            commenter_id = 9
         )
         comments.append(comment9)
         comment10 = Comment(
             comment="You know what they say, cowboy, easy come, easy go.",
             created_date=datetime.now(),
-            user_id = 10
+            commenter_id = 10
         )
         comments.append(comment10)
         db.session.add_all(comments)
@@ -189,7 +189,7 @@ if __name__ == '__main__':
             reply="What?",
             created_date=datetime.now(),
             comment_id = 1,
-            user_id = 2
+            replier_id = 2
         )
         replies.append(reply1)
         db.session.add_all(replies)

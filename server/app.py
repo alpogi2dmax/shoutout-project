@@ -91,7 +91,8 @@ class Comments(Resource):
 
     def get(self):
 
-        comments = Comment.query.order_by(Comment.created_date.desc()).all()
+        # comments = Comment.query.order_by(Comment.created_date.desc()).all()
+        comments = Comment.query.all()
         response = comments_schema.dump(comments), 200
         return response
     
@@ -100,7 +101,7 @@ class Comments(Resource):
             data = request.get_json()
             comment = Comment(
                 comment = data['comment'],
-                user_id = data['user_id']
+                commenter_id = data['user_id']
             )
             comment.created_date = datetime.now()
             db.session.add(comment)
@@ -161,7 +162,7 @@ class Replies(Resource):
             reply = Reply(
                 reply = data['reply'],
                 comment_id = data['comment_id'],
-                user_id = data['user_id']
+                replier_id = data['replier_id']
             )
             reply.created_date = datetime.now()
             db.session.add(reply)

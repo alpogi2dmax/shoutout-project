@@ -36,11 +36,11 @@ class User(db.Model):
             self._password_hash, password.encode('utf-8'))
     
     #add relationship with comment
-    comments = db.relationship('Comment', back_populates='user', cascade='all, delete-orphan')
+    comments = db.relationship('Comment', back_populates='commenter', cascade='all, delete-orphan')
     
 
     #add relationship with replies
-    replies = db.relationship('Reply', back_populates='user', cascade='all, delete-orphan')
+    replies = db.relationship('Reply', back_populates='replier', cascade='all, delete-orphan')
 
     #add relationship with comment via likes
     likes = db.relationship('Like', back_populates='comment_liker', cascade='all, delete-orphan')
@@ -82,8 +82,8 @@ class Comment(db.Model):
     created_date = db.Column(db.DateTime)
 
     #add relationship with user
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user = db.relationship('User', back_populates='comments')
+    commenter_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    commenter = db.relationship('User', back_populates='comments')
 
     #add relationship with replies
     replies = db.relationship('Reply', back_populates='comment', cascade='all, delete-orphan')
@@ -112,12 +112,12 @@ class Reply(db.Model):
     comment = db.relationship('Comment', back_populates='replies')
 
     #add relationship with User
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user = db.relationship('User', back_populates='replies')
+    replier_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    replier = db.relationship('User', back_populates='replies')
 
     #validation
     @validates('replies')
-    def validate_username(self, key, replies):
+    def validate_reply(self, key, replies):
         if len(replies) < 1 or len(replies) > 145:
             raise ValueError('replies cannot be blank and cannot be more than 145 characters')
         return replies
@@ -148,7 +148,7 @@ class UserSchema(ma.SQLAlchemySchema):
     last_name = ma.auto_field()
     email = ma.auto_field()
     profile_pic = ma.auto_field()
-    comments = ma.Nested( lambda: CommentSchema, many=True, only=('id', 'comment', 'created_date', 'user', 'replies'))
+    comments = ma.Nested( lambda: CommentSchema, many=True, only=('id', 'comment', 'created_date', 'commenter', 'replies', 'likes'))
 
     url = ma.Hyperlinks(
         {
@@ -170,7 +170,7 @@ class CommentSchema(ma.SQLAlchemySchema):
     id = ma.auto_field()
     comment = ma.auto_field()
     created_date = ma.auto_field()
-    user = ma.Nested(lambda: UserSchema, only=('id', 'first_name', 'last_name', 'profile_pic'))
+    commenter = ma.Nested(lambda: UserSchema, only=('id', 'first_name', 'last_name', 'profile_pic'))
     # replies = ma.Nested(lambda: ReplySchema, many=True, only=('id', 'reply', 'created_date', 'user'))
     replies = ma.Method("get_replies")
     # comment_likers = ma.Nested(lambda: UserSchema, many=True, only=('id', 'first_name', 'last_name'))
@@ -204,15 +204,15 @@ class ReplySchema(ma.SQLAlchemySchema):
     id = ma.auto_field()
     reply = ma.auto_field()
     created_date = ma.auto_field()
-    user = ma.Nested(lambda: UserSchema, only=('id', 'first_name', 'last_name', 'profile_pic'))
+    replier = ma.Nested(lambda: UserSchema, only=('id', 'first_name', 'last_name', 'profile_pic'))
     comment = ma.Nested(lambda: CommentSchema, only=('id', 'comment', 'created_date'))
 
     url = ma.Hyperlinks(
         {
             "self": ma.URLFor(
-                "commentsbyid",
+                "repliesbyid",
                 values=dict(id="<id>")),
-            "collection": ma.URLFor("comments"),
+            "collection": ma.URLFor("replies"),
         }
     )
 
