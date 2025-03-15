@@ -93,7 +93,9 @@ function UserCommentCard({comment, onUpdateComments}) {
                     </svg> */}
                     {comment.likes.length} Likes
                 </p>
-                <p>Reply</p>
+                <Link to={`/comments/${comment.id}`}>
+                    <p>Reply</p>
+                </Link>
             </div>
         </div>
     );

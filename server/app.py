@@ -101,7 +101,7 @@ class Comments(Resource):
             data = request.get_json()
             comment = Comment(
                 comment = data['comment'],
-                commenter_id = data['commenter_is']
+                commenter_id = data['commenter_id']
             )
             comment.created_date = datetime.now()
             db.session.add(comment)
