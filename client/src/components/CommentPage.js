@@ -70,6 +70,15 @@ function CommentPage() {
         }
     }
 
+    const updateComment = (updatedReplies) => {
+        const updatedComment = {
+            ...comment, replies: updatedReplies
+        }
+        console.log(updatedComment)
+        updateComments(updatedComment)
+        setComment(updatedComment)
+    }
+
     if (loading) {
         return <p>Loading...</p>
     }
@@ -119,7 +128,7 @@ function CommentPage() {
                 </div>
             </div>
             <CreateReply comment={comment} setComment={setComment}/>
-            <ReplyList replies={comment.replies}/>
+            <ReplyList replies={comment.replies} updateComment={updateComment}/>
         </div>
     )
 }

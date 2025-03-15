@@ -24,7 +24,7 @@ function CreateComment() {
         onSubmit: (values, formHelpers) => {
             const { resetForm } = formHelpers
             values.created_date = new Date().toISOString();
-            values.user_id = user.id;
+            values.commenter_id = user.id;
             fetch("/comments", {
                 method: "POST",
                 headers: {
