@@ -8,7 +8,7 @@ function UserReplyPage() {
     // const location = useLocation()
     //     const { user } = location.state || {}
     const { userPage, updateUserPage } = useContext(UserPageContext)
-        const [replies, setReplies] = useState(userPage.replies)
+    const [replies, setReplies] = useState(userPage.replies)
     
         // const sortedComments = [...comments].sort((a, b) => {
         //     const dateA = new Date(a.created_date)
@@ -17,10 +17,16 @@ function UserReplyPage() {
     
         // })
 
+    const handleUpdateReplies = (updatedReply) => {
+        setReplies(replies.map(reply => reply.id === updatedReply.id ? updatedReply :reply))
+        const newUserPage = {...userPage, replies: replies}
+        updateUserPage(userPage)
+    }
+
     return(
         <div>
             {replies.map(reply => (
-                <UserReplyCard key={reply.id} reply={reply}/>
+                <UserReplyCard key={reply.id} reply={reply} handleUpdateReplies={handleUpdateReplies}/>
             ))}
         </div>
     )

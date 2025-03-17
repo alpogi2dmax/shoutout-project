@@ -1,6 +1,9 @@
+import { useContext } from "react";
+import { UserContext } from "../context/user";
 
+function UserReplyCard({reply, handleUpdateReplies}) {
 
-function UserReplyCard({reply}) {
+    const { user } = useContext(UserContext)
 
     const createdDate = new Date(reply.created_date)
 
@@ -10,6 +13,50 @@ function UserReplyCard({reply}) {
     const year = createdDate.getFullYear();
 
     const formattedDate = `${month} ${day}, ${year}`
+
+    const handleLikeClick = () => {
+        const reply_likes = reply.reply_likes
+        console.log(`User ID: ${user.id}`)
+        console.log(reply_likes)
+        if (reply_likes.map(like => like.reply_liker.id).includes(user.id)) {
+            console.log('user liked this reply')
+            const reply_like = reply_likes.find(like => like.reply_liker.id === user.id)
+            console.log(reply_like)
+            fetch(`/reply_likes/${reply_like.id}`, {
+                method: "DELETE",
+            })
+            .then(() => {
+                const updatedReply = {
+                    ...reply,
+                    reply_likes: reply.reply_likes.filter(x => x.reply_liker.id !== user.id)
+                }
+                console.log(updatedReply)
+                handleUpdateReplies(updatedReply)
+            })
+        } else {
+            console.log('user did not like this reply')
+            let values = {
+                reply_liker_id: user.id,
+                liked_reply_id: reply.id
+            }
+            fetch('/reply_likes', {
+                method: 'POST',
+                headers: {
+                    'Content_type': 'application/json'
+                },
+                body: JSON.stringify(values, null, 2),
+            })
+            .then((r) => r.json())
+            .then(reply_like => {
+                const updatedReply = {
+                    ...reply,
+                    reply_likes: [...reply_likes, reply_like]
+                }
+                handleUpdateReplies(updatedReply)
+                
+            })
+        }
+    }
 
     return(
         <div className='reply-card'>
@@ -24,7 +71,7 @@ function UserReplyCard({reply}) {
                 <p>{reply.reply}</p>
             </div>
             <div className='reply-actions'>
-                <p>
+                <p onClick={handleLikeClick}>
                     {/* <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
