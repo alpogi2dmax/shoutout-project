@@ -124,7 +124,7 @@ function CommentPage() {
                         </svg> */}
                         {comment.likes.length} Like
                     </p>
-                    <p>Reply</p>
+                    <p>{comment.replies.length} Replies</p>
                 </div>
             </div>
             <CreateReply comment={comment} setComment={setComment}/>

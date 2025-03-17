@@ -91,7 +91,7 @@ function CommentCard({comment, user}) {
                     {comment.likes.length} Likes
                 </p>
                 <Link to={`/comments/${comment.id}`}>
-                    <p>Reply</p>
+                    <p>{comment.replies.length} Replies</p>
                 </Link>
                 
             </div>
