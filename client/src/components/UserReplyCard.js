@@ -85,7 +85,7 @@ function UserReplyCard({reply, handleUpdateReplies}) {
                     </svg> */}
                     {reply.reply_likes.length} Like
                 </p>
-                <p>Reply</p>
+                {/* <p>Reply</p> */}
             </div>
         </div>
     )

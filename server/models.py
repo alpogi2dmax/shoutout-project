@@ -216,6 +216,8 @@ class UserSchema(ma.SQLAlchemySchema):
     comments = ma.Nested( lambda: CommentSchema, many=True, only=('id', 'comment', 'created_date', 'commenter', 'replies', 'likes'))
     # replies = ma.Nested(lambda: ReplySchema, many=True, only=('id', 'reply', 'created_date', 'replier', 'comment'))
     replies = ma.Method("get_replies")
+    followers = ma.Nested(lambda: UserSchema, many=True, only=('id', 'first_name',))
+    followed = ma.Nested(lambda: UserSchema, many=True, only=('id', 'first_name',))
 
     url = ma.Hyperlinks(
         {
