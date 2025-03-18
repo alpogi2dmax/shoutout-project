@@ -10,6 +10,16 @@ from config import db, bcrypt, ma, datetime
 
 # Models go here!
 
+class Follow(db.Model):
+    __tablename__ = 'follows'
+
+    follower_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    followed_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    follow_date = db.Column(db.DateTime)
+
+    follower = db.relationship('User', foreign_keys=[follower_id], back_populates='following_association')
+    followed = db.relationship('User', foreign_keys=[followed_id], back_populates='follower_association')
+
 class User(db.Model):
     __tablename__ = 'users'
 
@@ -48,6 +58,28 @@ class User(db.Model):
 
     reply_likes = db.relationship('ReplyLike', back_populates='reply_liker', cascade='all, delete-orphan')
     liked_replies = association_proxy('reply_likes', 'liked_reply')
+
+    following_association = db.Relationship('Follow', foreign_keys=[Follow.follower_id], back_populates='follower', lazy='dynamic', cascade='all, delete-orphan')
+    follower_association = db.Relationship('Follow', foreign_keys=[Follow.followed_id], back_populates='followed', lazy='dynamic', cascade='all, delete-orphan')
+
+    followed = association_proxy('following_association', 'followed')
+    followers = association_proxy('follower_association', 'follower')
+
+    # def follow(self, user):
+    #     if not self.is_following(user):
+    #         follow = Follow(follower=self, followed=user)
+    #         self.following_association.append(follow)
+
+    # def unfollow(self, user):
+    #     follow = self.following_association.filter_by(followed_id=user.id).first()
+    #     if follow:
+    #         self.following_association.remove(follow)
+
+    # def is_following(self, user):
+    #     return self.following_association.filter_by(followed_id=user.id).count() > 0
+
+    # def is_followed_by(self, user):
+    #     return self.follower_association.filter_by(follower_id=user.id).count() > 0
 
     #validation
     @validates('username')
@@ -154,6 +186,19 @@ class ReplyLike(db.Model):
 
     reply_liker = db.relationship('User', back_populates='reply_likes')
     liked_reply = db.relationship('Reply', back_populates='reply_likes')
+
+# class Follow(db.Model):
+#     __tablename__ = 'follows'
+
+#     follower_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+#     followed_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+#     follow_date = db.Column(db.DateTime)
+
+#     follower = db.relationship('User', back_populates='following_association')
+#     followed = db.relationship('User', back_populates='follower_association')
+
+
+
 
 
     

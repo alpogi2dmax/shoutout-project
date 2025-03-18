@@ -9,7 +9,7 @@ from flask_restful import Resource
 # Local imports
 from config import app, db, api, datetime
 # Add your model imports
-from models import User, Comment, Reply, Like, ReplyLike, user_schema, users_schema, comment_schema, comments_schema, reply_schema, replies_schema, like_schema, likes_schema, reply_like_schema, reply_likes_schema
+from models import User, Comment, Reply, Like, ReplyLike, Follow, user_schema, users_schema, comment_schema, comments_schema, reply_schema, replies_schema, like_schema, likes_schema, reply_like_schema, reply_likes_schema
 
 
 

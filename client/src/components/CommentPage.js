@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react"
-import { useParams, Link } from "react-router-dom"
+import { useParams, Link, useNavigate } from "react-router-dom"
 import ReplyList from "./ReplyList"
 import CreateReply from "./CreateReply"
 import { UserContext } from "../context/user"
@@ -8,9 +8,11 @@ import { CommentContext } from "../context/comment"
 function CommentPage() {
 
     const { user } = useContext(UserContext)
-    const { updateComments } = useContext(CommentContext)
+    const { updateComments, deleteComments } = useContext(CommentContext)
 
     const { id } = useParams()
+
+    const navigate = useNavigate()
 
     const [comment, setComment] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -92,7 +94,16 @@ function CommentPage() {
 
     const formattedDate = `${month} ${day}, ${year}`
 
-    console.log(comment)
+    const handleDeleteClick = () => {
+        const commentId = comment.id
+        fetch(`/comments/${commentId}`, {
+            method: "DELETE",
+        })
+        .then(() => {
+            deleteComments(commentId)
+            navigate('/')
+        })
+    }
 
     return (
         <div>
@@ -125,6 +136,8 @@ function CommentPage() {
                         {comment.likes.length} Like
                     </p>
                     <p>{comment.replies.length} Replies</p>
+                    {comment.commenter.id === user.id && <p onClick={handleDeleteClick}>Delete</p>}
+
                 </div>
             </div>
             <CreateReply comment={comment} setComment={setComment}/>

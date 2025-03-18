@@ -8,11 +8,16 @@ function ReplyList({replies, updateComment}) {
         updateComment(updatedReplies)
     }
 
+    const deleteReply = (replyId) => {
+        const updatedReplies = replies.filter(reply => reply.id !== replyId)
+        updateComment(updatedReplies)
+    }
+
     return (
         <div>
             <h4>Replies</h4>
             {replies.map(reply => (
-                <ReplyCard key={reply.id} reply={reply} updateReplies={updateReplies}/>
+                <ReplyCard key={reply.id} reply={reply} updateReplies={updateReplies} deleteReply={deleteReply}/>
             ))}
         </div>
     )

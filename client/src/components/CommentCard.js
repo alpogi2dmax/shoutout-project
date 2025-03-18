@@ -5,7 +5,7 @@ import { CommentContext } from '../context/comment';
 
 function CommentCard({comment, user}) {
 
-    const {updateComments} = useContext(CommentContext)
+    const {updateComments, deleteComments} = useContext(CommentContext)
 
 
     const createdDate = new Date(comment.created_date)
@@ -58,6 +58,17 @@ function CommentCard({comment, user}) {
         }
     }
 
+    const handleDeleteClick = () => {
+        const commentId = comment.id
+        fetch(`/comments/${commentId}`, {
+            method: "DELETE",
+        })
+        .then(() => {
+            deleteComments(commentId)
+        })
+
+    }
+
 
     return (
         <div className='shoutout-card'>
@@ -93,6 +104,7 @@ function CommentCard({comment, user}) {
                 <Link to={`/comments/${comment.id}`}>
                     <p>{comment.replies.length} Replies</p>
                 </Link>
+                {comment.commenter.id === user.id && <p onClick={handleDeleteClick}>Delete</p>}
                 
             </div>
         </div>

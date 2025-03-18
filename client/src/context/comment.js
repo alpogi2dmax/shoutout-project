@@ -22,8 +22,12 @@ function CommentProvider({children}) {
         setComments(updatedComments)
     }
 
+    const deleteComments = (commentId) => {
+        setComments(comments.filter(comment => comment.id !== commentId))
+    }
+
     return (
-        <CommentContext.Provider value={{comments, setComments, handleLogoutComments, updateComments}}>
+        <CommentContext.Provider value={{comments, setComments, handleLogoutComments, updateComments, deleteComments}}>
             {children}
         </CommentContext.Provider>
     )

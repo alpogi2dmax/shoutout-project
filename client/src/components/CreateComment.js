@@ -10,7 +10,7 @@ function CreateComment() {
     const { comments, setComments } = useContext(CommentContext)
 
     const formSchema = yup.object().shape({
-        comment: yup.string().min(1, 'Must be more than 1 character').max(145, 'Must be less than 145 characters.'),
+        comment: yup.string().min(2, 'Must be more than 1 character').max(145, 'Must be less than 145 characters.').required('Comment is required'),
         created_date: yup.date()
     })
 

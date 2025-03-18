@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../context/user";
 
-function ReplyCard({reply, updateReplies}) {
+function ReplyCard({reply, updateReplies, deleteReply}) {
 
     const { user } = useContext(UserContext)
 
@@ -54,7 +54,18 @@ function ReplyCard({reply, updateReplies}) {
             })
         }
     }
-     
+
+    console.log(reply)
+    
+    const handleDeleteClick = () => {
+        const replyId = reply.id
+        fetch(`/replies/${replyId}`, {
+            method: "DELETE",
+        })
+        .then(() => {
+            deleteReply(replyId)
+        })
+    }
 
     return (
         <div className='reply-card'>
@@ -85,7 +96,8 @@ function ReplyCard({reply, updateReplies}) {
                     </svg> */}
                     {reply.reply_likes.length} Like
                 </p>
-                <p>Reply</p>
+                {/* <p>Reply</p> */}
+                {reply.replier.id === user.id && <p onClick={handleDeleteClick}>Delete</p>}
             </div>
         </div>
     )

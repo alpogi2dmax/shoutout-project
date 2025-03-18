@@ -10,7 +10,7 @@ function CreateReply({comment, setComment}) {
     const { comments, setComments } = useContext(CommentContext)
 
     const formSchema = yup.object().shape({
-        reply: yup.string().min(1, 'Must be more than 1 character').max(145, 'Must be less than 145 characters.'),
+        reply: yup.string().min(1, 'Must be more than 1 character').max(145, 'Must be less than 145 characters.').required('Reply is required.'),
         created_date: yup.date()
     })
 
