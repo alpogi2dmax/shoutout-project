@@ -13,12 +13,17 @@ from config import db, bcrypt, ma, datetime
 class Follow(db.Model):
     __tablename__ = 'follows'
 
-    follower_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
-    followed_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
-    follow_date = db.Column(db.DateTime)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    follower_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    followed_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    follow_date = db.Column(db.DateTime, default=datetime.now)
 
     follower = db.relationship('User', foreign_keys=[follower_id], back_populates='following_association')
     followed = db.relationship('User', foreign_keys=[followed_id], back_populates='follower_association')
+
+    __table_args__ = (
+       db.UniqueConstraint('follower_id', 'followed_id', name='unique_follow'),
+    )
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -340,3 +345,25 @@ class ReplyLikeSchema(ma.SQLAlchemySchema):
 
 reply_like_schema = ReplyLikeSchema()
 reply_likes_schema = ReplyLikeSchema(many=True)
+
+class FollowSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = Follow
+        load_instance = True
+    
+    id = ma.auto_field()
+    follower_id = ma.auto_field()
+    followed_id = ma.auto_field()
+    follow_date = ma.auto_field()
+
+    url = ma.Hyperlinks(
+        {
+            "self": ma.URLFor(
+                "followsbyid",
+                values=dict(id="<id>")),
+            "collection": ma.URLFor("follows"),
+        }
+    )
+
+follow_schema = FollowSchema()
+follows_schema = FollowSchema(many=True)

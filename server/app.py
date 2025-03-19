@@ -9,7 +9,7 @@ from flask_restful import Resource
 # Local imports
 from config import app, db, api, datetime
 # Add your model imports
-from models import User, Comment, Reply, Like, ReplyLike, Follow, user_schema, users_schema, comment_schema, comments_schema, reply_schema, replies_schema, like_schema, likes_schema, reply_like_schema, reply_likes_schema
+from models import User, Comment, Reply, Like, ReplyLike, Follow, user_schema, users_schema, comment_schema, comments_schema, reply_schema, replies_schema, like_schema, likes_schema, reply_like_schema, reply_likes_schema, follow_schema, follows_schema
 
 
 
@@ -278,6 +278,50 @@ class ReplyLikesByID(Resource):
             return response_body, 404
     
 api.add_resource(ReplyLikesByID,'/reply_likes/<int:id>')
+
+class Follows(Resource):
+
+    def post(self):
+        try:
+            data = request.get_json()
+            print('Received data:', data)
+            follow = Follow(
+                follower_id = data['follower_id'],
+                followed_id = data['followed_id']
+            )
+            follow.follow_date = datetime.now()
+            db.session.add(follow)
+            db.session.commit()
+            response = make_response(follow_schema.dump(follow), 201)
+            return response
+        except Exception as e:
+            print("Error:", e)
+            response_body = {'errors': [str(e)]}
+            return response_body, 400
+
+api.add_resource(Follows, '/follows')
+
+class FollowsByID(Resource):
+
+    def get(self, id):
+        follow = Follow.query.get(id)
+        if follow:
+            return follow_schema.dump(follow)
+        else:
+            return {'error': 'Follow not found'}, 404
+        
+    def delete(self, id):
+        follow = Follow.query.filter_by(id=id).first()
+        if follow:
+            db.session.delete(follow)
+            db.session.commit()
+            response_body= ''
+            return response_body, 204
+        else: 
+            response_body = {'error': 'Reply Like not found'}
+            return response_body, 404
+
+api.add_resource(FollowsByID, '/follows/<int:id>', endpoint='followsbyid')
 
 class SignUp(Resource):
 
