@@ -2,6 +2,7 @@ import { useContext } from "react"
 import { UserContext } from "../context/user"
 import { CommentContext } from "../context/comment";
 import { useFormik } from "formik"
+import { Link } from "react-router-dom";
 import * as yup from "yup";
 
 function CreateReply({comment, setComment}) {
@@ -55,7 +56,9 @@ function CreateReply({comment, setComment}) {
     return(
         <div className = 'shoutout-card'>
             <div className='shoutout-header'>
-                <img className='shoutout-pic' src={user.profile_pic}/>
+                <Link to='/user-settings'>
+                    <img className='shoutout-pic' src={user.profile_pic}/>
+                </Link>
                 <form onSubmit={formik.handleSubmit}>
                     <textarea style={{fontFamily: 'Arial, Helvetica, sans-serif'}} className='textarea-custom' type='textarea' name='reply' id='reply' value={formik.values.reply} placeholder="Post a reply" onChange={formik.handleChange} />
                     <p style={{color: "red" }}> {formik.errors.reply}</p>

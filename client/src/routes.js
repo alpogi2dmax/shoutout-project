@@ -6,6 +6,8 @@ import UserCommentPage from "./components/UserCommentPage";
 import UserReplyPage from "./components/UserReplyPage";
 import UserPageFollowers from "./components/UserPageFollowers";
 import UserPageFollowing from "./components/UserPageFollowing";
+import UserSettings from "./components/UserSettings";
+import UserSettingsComments from "./components/UserSettingsComments";
 
 
 const routes = [
@@ -20,6 +22,16 @@ const routes = [
             {
                 path: '/comments/:id',
                 element: <CommentPage />
+            },
+            {
+                path: '/user-settings',
+                element: <UserSettings />,
+                children: [
+                    {
+                        path: 'user-comments',
+                        element: <UserSettingsComments />
+                    }
+                ]
             },
             {
                 path: '/users/:id',

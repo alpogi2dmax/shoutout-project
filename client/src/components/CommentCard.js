@@ -72,7 +72,7 @@ function CommentCard({comment, user}) {
 
     return (
         <div className='shoutout-card'>
-             <Link to={`/users/${comment.commenter.id}`}>
+             <Link to={comment.commenter.id === user.id ? '/user-settings' : `/users/${comment.commenter.id}`}>
                 <div className='shoutout-header'>
                     <img className='shoutout-pic' src={comment.commenter.profile_pic} alt='Profile' />
                     <div className='user-info'>

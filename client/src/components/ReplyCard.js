@@ -69,7 +69,7 @@ function ReplyCard({reply, updateReplies, deleteReply}) {
 
     return (
         <div className='reply-card'>
-            <Link to={`/users/${reply.replier.id}`}>
+            <Link to={reply.replier.id === user.id ? '/user-settings' : `/users/${reply.replier.id}`}>
                 <div className='reply-header'>
                     <img className='reply-pic' src={reply.replier.profile_pic} alt='Profile' />
                     <div className='user-info'>
