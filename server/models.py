@@ -64,8 +64,8 @@ class User(db.Model):
     reply_likes = db.relationship('ReplyLike', back_populates='reply_liker', cascade='all, delete-orphan')
     liked_replies = association_proxy('reply_likes', 'liked_reply')
 
-    following_association = db.Relationship('Follow', foreign_keys=[Follow.follower_id], back_populates='follower', lazy='dynamic', cascade='all, delete-orphan')
-    follower_association = db.Relationship('Follow', foreign_keys=[Follow.followed_id], back_populates='followed', lazy='dynamic', cascade='all, delete-orphan')
+    following_association = db.relationship('Follow', foreign_keys=[Follow.follower_id], back_populates='follower', lazy='dynamic', cascade='all, delete-orphan')
+    follower_association = db.relationship('Follow', foreign_keys=[Follow.followed_id], back_populates='followed', lazy='dynamic', cascade='all, delete-orphan')
 
     followed = association_proxy('following_association', 'followed')
     followers = association_proxy('follower_association', 'follower')
@@ -221,8 +221,8 @@ class UserSchema(ma.SQLAlchemySchema):
     comments = ma.Nested( lambda: CommentSchema, many=True, only=('id', 'comment', 'created_date', 'commenter', 'replies', 'likes'))
     # replies = ma.Nested(lambda: ReplySchema, many=True, only=('id', 'reply', 'created_date', 'replier', 'comment'))
     replies = ma.Method("get_replies")
-    followers = ma.Nested(lambda: UserSchema, many=True, only=('id', 'first_name',))
-    followed = ma.Nested(lambda: UserSchema, many=True, only=('id', 'first_name',))
+    followers = ma.Nested(lambda: UserSchema, many=True, only=('id', 'first_name', 'last_name', 'profile_pic', 'username'))
+    followed = ma.Nested(lambda: UserSchema, many=True, only=('id', 'first_name', 'last_name', 'profile_pic', 'username'))
 
     url = ma.Hyperlinks(
         {

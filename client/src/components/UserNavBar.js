@@ -5,8 +5,10 @@ function UserNavBar({userPage}) {
 
     return (
         <div>
-            <Link to={`/users/${id}/comments`}>Comments</Link>
-            <Link to={`/users/${id}/replies`}>Replies</Link> 
+            <Link to={`/users/${id}/comments`}>{userPage.comments.length} Comments</Link>
+            <Link to={`/users/${id}/replies`}>{userPage.replies.length} Replies</Link>
+            <Link to={`/users/${id}/followers`}>{userPage.followers.length} Followers</Link>
+            <Link to={`/users/${id}/following`}>{userPage.followed.length} Following</Link>
         </div>
     );
 }

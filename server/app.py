@@ -323,6 +323,25 @@ class FollowsByID(Resource):
 
 api.add_resource(FollowsByID, '/follows/<int:id>', endpoint='followsbyid')
 
+class FollowDelete(Resource):
+
+    def delete(self):
+        data = request.get_json()
+        follower_id = data.get('follower_id')
+        followed_id = data.get('followed_id')
+        print(data)
+        follow = Follow.query.filter_by(follower_id=follower_id, followed_id=followed_id).first()
+        if follow:
+            db.session.delete(follow)
+            db.session.commit()
+            response_body = {'message': 'Follow deleted successful'}
+            return response_body, 204
+        else:
+            response_body = {'error': 'follow not found'}
+            return response_body, 404
+        
+api.add_resource(FollowDelete, '/follow_delete')
+
 class SignUp(Resource):
 
     def post(self):

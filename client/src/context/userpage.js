@@ -9,11 +9,17 @@ function UserPageProvider({children}) {
         setUserPage(newUserPage)
     }
 
+    
+const handleLogoutUserPage = () => {
+    setUserPage(null)
+}
+
     return (
-        <UserPageContext.Provider value={{ userPage, updateUserPage }}>
+        <UserPageContext.Provider value={{ userPage, updateUserPage, handleLogoutUserPage }}>
             {children}
         </UserPageContext.Provider>
     )
 }
+
 
 export { UserPageContext, UserPageProvider }

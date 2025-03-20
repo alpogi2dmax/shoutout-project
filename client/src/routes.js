@@ -4,6 +4,8 @@ import CommentPage from "./components/CommentPage";
 import UserPage from "./components/UserPage";
 import UserCommentPage from "./components/UserCommentPage";
 import UserReplyPage from "./components/UserReplyPage";
+import UserPageFollowers from "./components/UserPageFollowers";
+import UserPageFollowing from "./components/UserPageFollowing";
 
 
 const routes = [
@@ -30,6 +32,16 @@ const routes = [
                     {
                         path: 'replies',
                         element: <UserReplyPage />
+                    },
+                    ,
+                    {
+                        path: 'followers',
+                        element: <UserPageFollowers />
+                    },
+                    ,
+                    {
+                        path: 'following',
+                        element: <UserPageFollowing />
                     }
                 ]
             }

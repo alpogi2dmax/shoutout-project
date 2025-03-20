@@ -1,3 +1,7 @@
+.font-app {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .shoutout-card {
     border: 1px solid #e1e8ed;
     border-radius: 10px;
@@ -136,4 +140,52 @@
     width: 100px;
     height: 100px;
     margin-right: 10px;
+}
+
+.follow-card {
+    border: 1px solid #e1e8ed;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px 0;
+    max-width: 500px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.follow-header {
+    display: flex;
+    /* align-items: center; */
+    margin-bottom: 10px;
+}
+
+.follow-pic {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.follow-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.button {
+display: inline-block;
+outline: 0;
+border: 0;
+cursor: pointer;
+border-radius: 8px;
+padding: 10px 20px 10px;
+margin: 10px;
+font-size: 14px;
+font-weight: 500px;
+line-height: 1;
+transition: transform 200ms,background 200ms;
+background: transparent;
+color: #000000;
+box-shadow: 0 0 0 3px #000000 inset;
+}
+.button:hover{
+    transform: translateY(-2px);
 }

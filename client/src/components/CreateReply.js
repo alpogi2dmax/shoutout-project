@@ -57,7 +57,7 @@ function CreateReply({comment, setComment}) {
             <div className='shoutout-header'>
                 <img className='shoutout-pic' src={user.profile_pic}/>
                 <form onSubmit={formik.handleSubmit}>
-                    <textarea className='textarea-custom' type='textarea' name='reply' id='reply' value={formik.values.reply} placeholder="Post a reply" onChange={formik.handleChange} />
+                    <textarea style={{fontFamily: 'Arial, Helvetica, sans-serif'}} className='textarea-custom' type='textarea' name='reply' id='reply' value={formik.values.reply} placeholder="Post a reply" onChange={formik.handleChange} />
                     <p style={{color: "red" }}> {formik.errors.reply}</p>
                     <button type='submit'>Post</button>
                 </form>

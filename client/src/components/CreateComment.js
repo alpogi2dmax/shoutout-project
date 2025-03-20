@@ -46,7 +46,7 @@ function CreateComment() {
             <div className='shoutout-header'>
                 <img className='shoutout-pic' src={user.profile_pic}/>
                 <form onSubmit={formik.handleSubmit}>
-                    <textarea className='textarea-custom' type='textarea' name='comment' id='comment' value={formik.values.comment} placeholder="What's happening..." onChange={formik.handleChange} />
+                    <textarea style={{fontFamily: 'Arial, Helvetica, sans-serif'}} className='textarea-custom' type='textarea' name='comment' id='comment' value={formik.values.comment} placeholder="What's happening..." onChange={formik.handleChange} />
                     <p style={{color: "red" }}> {formik.errors.comment}</p>
                     <button type='submit'>Post</button>
                 </form>
