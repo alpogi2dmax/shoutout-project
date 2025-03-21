@@ -218,7 +218,8 @@ class UserSchema(ma.SQLAlchemySchema):
     last_name = ma.auto_field()
     email = ma.auto_field()
     profile_pic = ma.auto_field()
-    comments = ma.Nested( lambda: CommentSchema, many=True, only=('id', 'comment', 'created_date', 'commenter', 'replies', 'likes'))
+    # comments = ma.Nested( lambda: CommentSchema, many=True, only=('id', 'comment', 'created_date', 'commenter', 'replies', 'likes'))
+    comments = ma.Method("get_comments")
     # replies = ma.Nested(lambda: ReplySchema, many=True, only=('id', 'reply', 'created_date', 'replier', 'comment'))
     replies = ma.Method("get_replies")
     followers = ma.Nested(lambda: UserSchema, many=True, only=('id', 'first_name', 'last_name', 'profile_pic', 'username'))
@@ -232,6 +233,14 @@ class UserSchema(ma.SQLAlchemySchema):
             "collection": ma.URLFor("users"),
         }
     )
+
+    def get_comments(self, user):
+        comments = user.comments
+        comments_schema = CommentSchema(many=True)
+        # Use sorted with reverse=True to sort in descending order
+        sorted_comments = sorted(comments, key=lambda x: x.created_date, reverse=True)
+        comment_data = comments_schema.dump(sorted_comments)
+        return comment_data
 
     def get_replies(self, user):
         replies = user.replies
