@@ -1,5 +1,6 @@
 .font-app {
     font-family: Arial, Helvetica, sans-serif;
+    text-decoration: none;
 }
 
 .shoutout-card {
@@ -34,17 +35,20 @@
     margin: 0;
     font-size: 1.1rem;
     font-weight: bold;
+    color: black;
+    text-decoration: none;
 }
 
 .shoutout-date {
     color: #657786;
     font-size: 0.9rem;
+    text-decoration: none;
 }
 
 .shoutout-content {
     font-size: 1rem;
     line-height: 1.4;
-    color: #14171a;
+    color: #3535c9;
 }
 
 .shoutout-actions {
@@ -58,7 +62,8 @@
     margin: 0; /* Remove any default margin */
     font-weight: bold;
     cursor: pointer;
-    color: #1DA1F2;
+    color: rgb(90, 84, 84);
+    text-decoration: none;
 }
 
 .heart-icon {
@@ -171,21 +176,43 @@
 }
 
 .button {
-display: inline-block;
-outline: 0;
-border: 0;
-cursor: pointer;
-border-radius: 8px;
-padding: 10px 20px 10px;
-margin: 10px;
-font-size: 14px;
-font-weight: 500px;
-line-height: 1;
-transition: transform 200ms,background 200ms;
-background: transparent;
-color: #000000;
-box-shadow: 0 0 0 3px #000000 inset;
+    display: inline-block;
+    outline: 0;
+    border: 0;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 10px 20px 10px;
+    margin: 10px;
+    font-size: 14px;
+    font-weight: 500px;
+    line-height: 1;
+    transition: transform 200ms,background 200ms;
+    background: transparent;
+    color: #000000;
+    box-shadow: 0 0 0 3px #000000 inset;
 }
 .button:hover{
     transform: translateY(-2px);
+}
+
+.navbar-links {
+    text-align: center;
+    border: 1px solid #e1e8ed;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px 0;
+    max-width: 500px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.link-style {
+    padding: 5px;
+    margin: 5px;
+    color: rgb(90, 84, 84);
+    text-decoration: none;
+}
+
+.link-comment-style {
+    text-decoration: none;
 }
