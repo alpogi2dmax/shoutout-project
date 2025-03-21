@@ -9,7 +9,7 @@ function UserPage() {
     const { id } = useParams()
 
     const { userPage, updateUserPage } = useContext(UserPageContext)
-    const { user, setUser } = useContext(UserContext)
+    const { user, setUser, followed, setFollowed } = useContext(UserContext)
 
     const isFollowing = userPage && userPage.followers.map(follower => follower.id).includes(user.id)
 
@@ -61,13 +61,10 @@ function UserPage() {
                 ...userPage,
                 followers: [...userPage.followers, newFollower]
             }
-            const updatedUser = {
-                ...user,
-                followed: [...user.followed, newFollowed]
-            }
+            const updatedFollowed = [newFollowed, ...followed]
 
             updateUserPage(updatedUserPage)
-            setUser(updatedUser)
+            setFollowed(updatedFollowed)
         })
     }
 
@@ -105,7 +102,7 @@ function UserPage() {
         <div>
             <img className='user-profile-pic' src={userPage.profile_pic} />
             <p>{userPage.first_name} {userPage.last_name}</p>
-            {!isFollowing ? <button onClick={handleFollowClick}>Follow</button> : <button onClick={handleUnfollowClick}>UnFollow</button>}
+            {!isFollowing ? <button className='button' onClick={handleFollowClick}>Follow</button> : <button className='button' onClick={handleUnfollowClick}>UnFollow</button>}
             {userPage && <UserNavBar userPage={userPage}/>}
             <Outlet />
         </div>

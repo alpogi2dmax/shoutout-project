@@ -18,7 +18,7 @@ function UserPageFollowing() {
             <h2>Following</h2>
             {filteredFollowing.map(followed => (
                 // <p key={followed.id}>{followed.first_name}</p>
-                <UserPageFollowingCard key={followed.id} followed={followed} />
+                <UserPageFollowingCard key={followed.id} followedUserPage={followed} />
             ))}
         </div>
     )

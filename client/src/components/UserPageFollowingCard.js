@@ -2,17 +2,17 @@ import { useContext } from "react"
 import { UserContext } from "../context/user"
 
 
-function UserPageFollowingCard({followed}) {
+function UserPageFollowingCard({followedUserPage}) {
 
-    const { user, setUser } = useContext(UserContext)
+    const { user, setUser, followed, setFollowed } = useContext(UserContext)
 
 
-    const isFollowing = user.followed.map(f => f.id).includes(followed.id)
+    const isFollowing = followed.map(f => f.id).includes(followedUserPage.id)
 
     const handleFollowClick = () => {
         let values = {
             follower_id: user.id,
-            followed_id: followed.id
+            followed_id: followedUserPage.id
         }
         fetch("/follows", {
             method: "POST",
@@ -31,30 +31,27 @@ function UserPageFollowingCard({followed}) {
             //     username: user.username
             // }
             const newFollowed = {
-                id: followed.id,
-                first_name: followed.first_name,
-                last_name: followed.last_name,
-                profile_pic: followed.profile_pic,
-                username: followed.username
+                id: followedUserPage.id,
+                first_name: followedUserPage.first_name,
+                last_name: followedUserPage.last_name,
+                profile_pic: followedUserPage.profile_pic,
+                username: followedUserPage.username
             }
             // const updatedUserPage = {
             //     ...userPage,
             //     followers: [...userPage.followers, newFollower]
             // }
-            const updatedUser = {
-                ...user,
-                followed: [...user.followed, newFollowed]
-            }
+            const updatedFollowed = [newFollowed, ...followed]
 
             // updateUserPage(updatedUserPage)
-            setUser(updatedUser)
+            setFollowed(updatedFollowed)
         })
     }
 
     const handleUnfollowClick = () => {
         const follow = {
             follower_id: user.id,
-            followed_id: followed.id
+            followed_id: followedUserPage.id
         }
         fetch('/follow_delete', {
             method: "DELETE",
@@ -69,13 +66,10 @@ function UserPageFollowingCard({followed}) {
             //     ...userPage,
             //     followers: updatedFollowers
             // }
-            const updatedFollowed = user.followed.filter(followed => followed.id !== followed.id)
-            const updatedUser = {
-                ...user,
-                followed: updatedFollowed
-            }
+            const updatedFollowed = followed.filter(followed => followed.id !== followedUserPage.id)
+            
             // updateUserPage(updatedUserPage)
-            setUser(updatedUser)
+            setFollowed(updatedFollowed)
         })
     }
 
@@ -83,9 +77,9 @@ function UserPageFollowingCard({followed}) {
     return (
         <div className='follow-card'>
             <div className='follow-header'>
-                <img className='follow-pic' src={followed.profile_pic} alt='Profile picture' />
-                <p className='follow-info'>{followed.first_name} {followed.last_name}</p>
-                {!isFollowing ? <button onClick={handleFollowClick}>Follow</button> : <button onClick={handleUnfollowClick}>UnFollow</button>}
+                <img className='follow-pic' src={followedUserPage.profile_pic} alt='Profile picture' />
+                <p className='follow-info'>{followedUserPage.first_name} {followedUserPage.last_name}</p>
+                {!isFollowing ? <button className='button' onClick={handleFollowClick}>Follow</button> : <button className='button' onClick={handleUnfollowClick}>UnFollow</button>}
             </div>
         </div>
     )

@@ -27,7 +27,7 @@ function NavBar() {
                 {user ? (
                     <button className='button' onClick={handleLogOutClick}>Logout</button>
                 ) : (
-                    <Link className='buttonlinks' to="/">
+                    <Link className='button' to="/">
                         Login
                     </Link>
                 )}

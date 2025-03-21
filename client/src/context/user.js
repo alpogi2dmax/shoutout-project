@@ -6,6 +6,8 @@ function UserProvider({children}) {
     const [ user, setUser ] = useState(null)
     const [ comments, setComments ] = useState([])
     const [ replies, setReplies ] = useState([])
+    const [ followers, setFollowers ] = useState([])
+    const [ followed, setFollowed ] = useState([])
 
     useEffect(() => {
         fetch('/checksession')
@@ -22,6 +24,8 @@ function UserProvider({children}) {
                 setUser(data);
                 setComments(data.comments);
                 setReplies(data.replies);
+                setFollowers(data.followers);
+                setFollowed(data.followed);
             }
         })
         .catch(error => console.log('Fetch error:', error));
@@ -33,6 +37,10 @@ function UserProvider({children}) {
         })
         .then(() => {
           setUser(null)
+          setComments([])
+          setReplies([])
+          setFollowers([])
+          setFollowed([])
         })
       }
 
@@ -88,7 +96,7 @@ function UserProvider({children}) {
     }
 
     return (
-        <UserContext.Provider value={{ user, setUser, handleLogoutUser, comments, handleCommentLike, addComments, deleteComments, replies, handleReplyLike, addReplies, updateComments, deleteReplyUser }}>
+        <UserContext.Provider value={{ user, setUser, handleLogoutUser, comments, handleCommentLike, addComments, deleteComments, replies, handleReplyLike, addReplies, updateComments, deleteReplyUser, followers, followed, setFollowed }}>
             {children}
         </UserContext.Provider>
     )
