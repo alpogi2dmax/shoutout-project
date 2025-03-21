@@ -4,7 +4,7 @@ import { UserContext } from "../context/user";
 
 function ReplyCard({reply, updateReplies, deleteReply}) {
 
-    const { user } = useContext(UserContext)
+    const { user, handleReplyLike, deleteReplyUser } = useContext(UserContext)
 
     const createdDate = new Date(reply.created_date)
 
@@ -30,6 +30,7 @@ function ReplyCard({reply, updateReplies, deleteReply}) {
                 }
                 console.log(updatedReply)
                 updateReplies(updatedReply)
+                handleReplyLike(updatedReply)
             })  
         } else {
             let values = {
@@ -50,7 +51,7 @@ function ReplyCard({reply, updateReplies, deleteReply}) {
                     reply_likes: [...reply.reply_likes, reply_like]
                 }
                 updateReplies(updatedReply)
-                
+                handleReplyLike(updatedReply)
             })
         }
     }
@@ -64,6 +65,7 @@ function ReplyCard({reply, updateReplies, deleteReply}) {
         })
         .then(() => {
             deleteReply(replyId)
+            deleteReplyUser(reply)
         })
     }
 

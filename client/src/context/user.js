@@ -5,6 +5,7 @@ const UserContext = React.createContext()
 function UserProvider({children}) {
     const [ user, setUser ] = useState(null)
     const [ comments, setComments ] = useState([])
+    const [ replies, setReplies ] = useState([])
 
     useEffect(() => {
         fetch('/checksession')
@@ -20,6 +21,7 @@ function UserProvider({children}) {
             } else {
                 setUser(data);
                 setComments(data.comments);
+                setReplies(data.replies);
             }
         })
         .catch(error => console.log('Fetch error:', error));
@@ -34,50 +36,59 @@ function UserProvider({children}) {
         })
       }
 
-    const handleCommentLike = (comment) => {
-        console.log(comment)
+    const handleCommentLike = (updatedComment) => {
+        const updatedComments = comments.map(comment => comment.id === updatedComment.id ? updatedComment : comment)
+        setComments(updatedComments)
+    }
 
-        if ((comment.likes || []).map(x => x.comment_liker?.id).includes(user.id)) {
-            const like = comment.likes.find(x => x.comment_liker.id === user.id)
-            fetch(`/likes/${like.id}`, {
-                method: "DELETE",
-            })
-            .then(() => {
-            const updatedComment = {
-                ...comment,
-                likes: comment.likes.filter(x => x.comment_liker.id !== user.id)
-            }
-            const updatedComments = comments.map(comment => comment.id === updatedComment.id ? updatedComment : comment)
-            setComments(updatedComments)
-            })  
-        } else {
-            let values = {
-                comment_liker_id: user.id,
-                liked_comment_id: comment.id
-            }
-            fetch('/likes', {
-                method: 'POST',
-                headers: {
-                    'Content_type': 'application/json'
-                },
-                body: JSON.stringify(values, null, 2),
-            })
-            .then((r) => r.json())
-            .then(like => {
-                const updatedComment = {
-                    ...comment,
-                    likes: [...comment.likes, like]
-                }
-                const updatedComments = comments.map(comment => comment.id === updatedComment.id ? updatedComment : comment)
-                setComments(updatedComments)
-                
-            })
+    const updateComments = (updatedComment) => {
+        const updatedComments = comments.map(comment => comment.id === updatedComment.id ? updatedComment : comment)
+        setComments(updatedComments)
+    }
+
+    const addComments = (comment) =>  {
+        setComments([comment, ...comments])
+    }
+
+    const addReplies = (reply) => {
+        setReplies([reply, ...replies])
+    }
+
+    const deleteComments = (deletedComment) => {
+        fetch(`/comments/${deletedComment.id}`, {
+            method: "DELETE",
+        })
+        .then(() => {
+            setComments(comments.filter(comment => comment.id !== deletedComment.id))
+        })
+    }
+
+    const handleReplyLike = (updatedReply) => {
+        const updatedReplies = replies.map(reply => reply.id === updatedReply.id ? updatedReply : reply)
+        setReplies(updatedReplies)
+        const targetComment = comments.find(comment => comment.id === updatedReply.comment.id)
+        const updatedComment = {
+            ...targetComment,
+            replies: updatedReplies
         }
+        const updatedComments = comments.map(comment => comment.id === updatedComment.id ? updatedComment : comment)
+        setComments(updatedComments)
+    }
 
+    const deleteReplyUser = (deletedReply) => {
+        const updatedReplies = replies.filter(reply => reply.id !== deletedReply.id)
+        setReplies(updatedReplies)
+        const targetComment = comments.find(comment => comment.id === deletedReply.comment.id)
+        const updatedComment = {
+            targetComment,
+            replies: updatedReplies
+        }
+        const updatedComments = comments.map(comment => comment.id === updatedComment.id ? updatedComment : comment)
+        setComments(updatedComments)
     }
 
     return (
-        <UserContext.Provider value={{ user, setUser, handleLogoutUser, comments, handleCommentLike }}>
+        <UserContext.Provider value={{ user, setUser, handleLogoutUser, comments, handleCommentLike, addComments, deleteComments, replies, handleReplyLike, addReplies, updateComments, deleteReplyUser }}>
             {children}
         </UserContext.Provider>
     )

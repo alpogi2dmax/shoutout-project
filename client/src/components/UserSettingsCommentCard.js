@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../context/user";
+import { CommentContext } from "../context/comment";
 
 function UserSettingsCommentCard({comment}) {
 
-    const { handleCommentLike } = useContext(UserContext)
+    const { user, handleCommentLike, deleteComments } = useContext(UserContext)
+    const { handleLike, deleteComment } = useContext(CommentContext)
 
     const createdDate = new Date(comment.created_date)
 
@@ -16,7 +18,47 @@ function UserSettingsCommentCard({comment}) {
     const formattedDate = `${month} ${day}, ${year}`
 
     const handleLikeClick = () => {
-        handleCommentLike(comment)
+        if ((comment.likes || []).map(x => x.comment_liker?.id).includes(user.id)) {
+            const like = comment.likes.find(x => x.comment_liker.id === user.id)
+            fetch(`/likes/${like.id}`, {
+                method: "DELETE",
+            })
+            .then(() => {
+            const updatedComment = {
+                ...comment,
+                likes: comment.likes.filter(x => x.comment_liker.id !== user.id)
+            }
+            handleCommentLike(updatedComment)
+            handleLike(updatedComment)
+            })  
+        } else {
+            let values = {
+                comment_liker_id: user.id,
+                liked_comment_id: comment.id
+            }
+            fetch('/likes', {
+                method: 'POST',
+                headers: {
+                    'Content_type': 'application/json'
+                },
+                body: JSON.stringify(values, null, 2),
+            })
+            .then((r) => r.json())
+            .then(like => {
+                const updatedComment = {
+                    ...comment,
+                    likes: [...comment.likes, like]
+                }
+                handleCommentLike(updatedComment)
+                handleLike(updatedComment)
+                
+            })
+        }
+    }
+
+    const handleDeleteClick = () => {
+        deleteComments(comment)
+        deleteComment(comment)
     }
     
     return (
@@ -55,6 +97,7 @@ function UserSettingsCommentCard({comment}) {
                             <Link to={`/comments/${comment.id}`}>
                                 <p>{comment.replies.length} Replies</p>
                             </Link>
+                            <p onClick={handleDeleteClick}>Delete</p>
                         </div>
                     </div>
         </div>

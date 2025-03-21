@@ -7,7 +7,7 @@ import * as yup from "yup";
 
 function CreateReply({comment, setComment}) {
 
-    const { user } = useContext(UserContext)
+    const { user, updateComments, addReplies } = useContext(UserContext)
     const { comments, setComments } = useContext(CommentContext)
 
     const formSchema = yup.object().shape({
@@ -46,6 +46,8 @@ function CreateReply({comment, setComment}) {
                 )
                 setComments(updatedComments)
                 setComment(updatedComment)
+                updateComments(updatedComment)
+                addReplies(newReply)
                 resetForm()
             })
         },

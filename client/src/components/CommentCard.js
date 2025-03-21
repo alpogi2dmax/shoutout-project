@@ -2,10 +2,14 @@ import './App.css'
 import React, {useContext} from 'react';
 import { Link } from 'react-router-dom';
 import { CommentContext } from '../context/comment';
+import { UserContext } from '../context/user';
 
-function CommentCard({comment, user}) {
+function CommentCard({comment}) {
 
-    const {updateComments, deleteComments} = useContext(CommentContext)
+    const { user, handleCommentLike, deleteComments } = useContext(UserContext)
+
+
+    const {updateComments, deleteComment} = useContext(CommentContext)
 
 
     const createdDate = new Date(comment.created_date)
@@ -31,6 +35,7 @@ function CommentCard({comment, user}) {
                     likes: comment.likes.filter(x => x.comment_liker.id !== user.id)
                 }
                 updateComments(updatedComment)
+                handleCommentLike(updatedComment)
             })  
             
         
@@ -53,19 +58,15 @@ function CommentCard({comment, user}) {
                     likes: [...comment.likes, like]
                 }
                 updateComments(updatedComment)
+                handleCommentLike(updatedComment)
                 
             })
         }
     }
 
     const handleDeleteClick = () => {
-        const commentId = comment.id
-        fetch(`/comments/${commentId}`, {
-            method: "DELETE",
-        })
-        .then(() => {
-            deleteComments(commentId)
-        })
+        deleteComment(comment)
+        deleteComments(comment)
 
     }
 

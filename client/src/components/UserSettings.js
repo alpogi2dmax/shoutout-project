@@ -11,9 +11,10 @@ function UserSettings() {
     useEffect(() => {
         // Redirect to 'user-comments' when UserSettings is accessed
         navigate('/user-settings/user-comments');
-    }, [navigate]);
+    }, [user, navigate]);
 
-    console.log(user.first_name)
+
+    if (!user) {return <div>Loading...</div>}
 
     return (
         <div>

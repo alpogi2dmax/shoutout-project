@@ -7,8 +7,8 @@ import { CommentContext } from "../context/comment"
 
 function CommentPage() {
 
-    const { user } = useContext(UserContext)
-    const { updateComments, deleteComments } = useContext(CommentContext)
+    const { user, handleCommentLike, deleteComments } = useContext(UserContext)
+    const { updateComments, deleteComment } = useContext(CommentContext)
 
     const { id } = useParams()
 
@@ -44,6 +44,7 @@ function CommentPage() {
                 }
                 updateComments(updatedComment)
                 setComment(updatedComment)
+                handleCommentLike(updatedComment)
             })  
             
         
@@ -67,6 +68,7 @@ function CommentPage() {
                 }
                 updateComments(updatedComment)
                 setComment(updatedComment)
+                handleCommentLike(updatedComment)
                 
             })
         }
@@ -95,20 +97,17 @@ function CommentPage() {
     const formattedDate = `${month} ${day}, ${year}`
 
     const handleDeleteClick = () => {
-        const commentId = comment.id
-        fetch(`/comments/${commentId}`, {
-            method: "DELETE",
-        })
-        .then(() => {
-            deleteComments(commentId)
-            navigate('/')
-        })
+        deleteComments(comment)
+        deleteComment(comment)
+        navigate('/')
     }
+
+    console.log(comment)
 
     return (
         <div>
             <div className='shoutout-card'>
-                <Link to={`/users/${comment.commenter.id}`}>
+                <Link to={comment.commenter.id === user.id ? '/user-settings' : `/users/${comment.commenter.id}`}>
                     <div className='shoutout-header'>
                         <img className='shoutout-pic' src={comment.commenter.profile_pic} alt='Profile' />
                         <div className='user-info'>

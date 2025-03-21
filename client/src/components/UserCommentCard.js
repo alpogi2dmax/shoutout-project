@@ -5,7 +5,7 @@ import { CommentContext } from "../context/comment";
 
 function UserCommentCard({comment, onUpdateComments}) {
 
-    const {user} = useContext(UserContext)
+    const {user, handleCommentLike} = useContext(UserContext)
     const {updateComments} = useContext(CommentContext)
 
     console.log(user)
@@ -34,6 +34,7 @@ function UserCommentCard({comment, onUpdateComments}) {
             }
             updateComments(updatedComment)
             onUpdateComments(updatedComment)
+            handleCommentLike(updatedComment)
             })  
         } else {
             let values = {
@@ -55,6 +56,7 @@ function UserCommentCard({comment, onUpdateComments}) {
                 }
                 updateComments(updatedComment)
                 onUpdateComments(updatedComment)
+                handleCommentLike(updatedComment)
                 
             })
         }
