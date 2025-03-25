@@ -111,9 +111,9 @@ class Comments(Resource):
 
         user = User.query.filter_by(id=session['user_id']).first()
         comments = Comment.query.order_by(Comment.created_date.desc()).all()
-        user_followers = [follower.id for follower in user.followers]
-        user_followers.append(user.id)
-        filtered_comments = [comment for comment in comments if comment.commenter.id in user_followers]
+        user_followed = [followed.id for followed in user.followed]
+        user_followed.append(user.id)
+        filtered_comments = [comment for comment in comments if comment.commenter.id in user_followed]
         # comments = Comment.query.all()
         response = comments_schema.dump(filtered_comments), 200
         return response
@@ -169,6 +169,18 @@ class CommentsByID(Resource):
             return response_body, 404
 
 api.add_resource(CommentsByID,'/comments/<int:id>')
+
+class CommentsBySearch(Resource):
+
+    def get(self, search):
+        search_term = f"%{search.lower()}%"
+        comments = Comment.query.filter(Comment.comment.ilike(search_term)).order_by(Comment.created_date.desc()).all()
+
+        # Serialize the filtered users
+        response = make_response(comments_schema.dump(comments), 200)
+        return response
+    
+api.add_resource(CommentsBySearch,'/comments/<string:search>')
 
 class Replies(Resource):
 

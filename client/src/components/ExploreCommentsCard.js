@@ -1,16 +1,13 @@
-import './App.css'
-import React, {useContext} from 'react';
-import { Link } from 'react-router-dom';
-import { CommentContext } from '../context/comment';
-import { UserContext } from '../context/user';
-
-function CommentCard({comment}) {
-
-    const { user, handleCommentLike, deleteComments } = useContext(UserContext)
+import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { UserContext } from "../context/user";
 
 
-    const {updateComments, deleteComment} = useContext(CommentContext)
+function ExploreCommentsCard({comment, deleteComment}) {
 
+    const { user, deleteComments } = useContext(UserContext)
+
+    const [likes, setLikes] = useState(comment.likes)
 
     const createdDate = new Date(comment.created_date)
 
@@ -21,24 +18,17 @@ function CommentCard({comment}) {
 
     const formattedDate = `${month} ${day}, ${year}`
 
-    console.log(comment.commenter)
-
     const handleLikeClick = () => {
-        if ((comment.likes || []).map(x => x.comment_liker?.id).includes(user.id)) {
-            const like = comment.likes.find(x => x.comment_liker.id === user.id)
+        if ((likes || []).map(x => x.comment_liker?.id).includes(user.id)) {
+            const like = likes.find(x => x.comment_liker.id === user.id)
             fetch(`/likes/${like.id}`, {
                 method: "DELETE",
             })
             .then(() => {
-                const updatedComment = {
-                    ...comment,
-                    likes: comment.likes.filter(x => x.comment_liker.id !== user.id)
-                }
-                updateComments(updatedComment)
-                handleCommentLike(updatedComment)
+                const updatedLikes = likes.filter(x => x.comment_liker.id !== user.id)
+                
+                setLikes(updatedLikes)
             })  
-            
-        
         } else {
             let values = {
                 comment_liker_id: user.id,
@@ -53,34 +43,28 @@ function CommentCard({comment}) {
             })
             .then((r) => r.json())
             .then(like => {
-                const updatedComment = {
-                    ...comment,
-                    likes: [...comment.likes, like]
-                }
-                updateComments(updatedComment)
-                handleCommentLike(updatedComment)
-                
+                const updatedLikes = [...likes, like]
+                setLikes(updatedLikes)
             })
         }
     }
 
     const handleDeleteClick = () => {
-        deleteComment(comment)
         deleteComments(comment)
+        deleteComment(comment)
 
     }
 
-
     return (
         <div className='shoutout-card'>
-             <Link className='link-comment-style' to={comment.commenter.id === user.id ? '/user-settings' : `/users/${comment.commenter.id}`}>
-                <div className='shoutout-header'>
-                    <img className='shoutout-pic' src={comment.commenter.profile_pic} alt='Profile' />
-                    <div className='user-info'>
-                        <h2 className='user-name'>{comment.commenter.first_name} {comment.commenter.last_name}</h2>
-                        <small className='shoutout-date'>{formattedDate}</small>
-                    </div>
+            <Link className='link-comment-style' to={comment.commenter.id === user.id ? '/user-settings' : `/users/${comment.commenter.id}`}>
+            <div className='shoutout-header'>
+                <img className='shoutout-pic' src={comment.commenter.profile_pic} alt='Profile' />
+                <div className='user-info'>
+                    <h2 className='user-name'>{comment.commenter.first_name} {comment.commenter.last_name}</h2>
+                    <small className='shoutout-date'>{formattedDate}</small>
                 </div>
+            </div>
             </Link>
             <div className='shoutout-content'>
                 <Link className='link-comment-style' to={`/comments/${comment.id}`}>
@@ -89,7 +73,7 @@ function CommentCard({comment}) {
             </div>
             <div className='shoutout-actions'>
                 <p onClick={handleLikeClick}>
-                    {comment.likes.length}    {comment.likes.map(like => like.comment_liker.id).includes(user.id) ? 
+                    {likes.length}    {likes.map(like => like.comment_liker.id).includes(user.id) ? 
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="red" height='20' width='20'>
                             <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
                         </svg>
@@ -115,8 +99,7 @@ function CommentCard({comment}) {
                 }
             </div>
         </div>
-    );
-    
+    )
 }
 
-export default CommentCard
+export default ExploreCommentsCard

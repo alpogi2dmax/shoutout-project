@@ -54,7 +54,7 @@ function SignUpForm() {
 
 
     return (
-        <form onSubmit={formik.handleSubmit}>
+        <form className='editprofile-card' onSubmit={formik.handleSubmit}>
             <label>Username: </label>
             <input type='text' name='username' id='username' value={formik.values.username} onChange={formik.handleChange} />
             <p style={{color: "red" }}> {formik.errors.username}</p>
@@ -76,7 +76,7 @@ function SignUpForm() {
             <label>Profile Picture: </label>
             <input type='text' name='profile_pic' id='profile_pic' value={formik.values.profile_pic} onChange={formik.handleChange} />
             <p style={{color: "red" }}> {formik.errors.profile_pic}</p>
-            <button className='button-23' type='submit'>Sign Up</button>
+            <button className='button' type='submit'>Sign Up</button>
         </form>
     )
 }

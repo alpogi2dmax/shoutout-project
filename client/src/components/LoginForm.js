@@ -42,7 +42,7 @@ function LoginForm() {
     }
 
     return (
-        <form className='addpropertyform' onSubmit={handleSubmit}>
+        <form className='editprofile-card' onSubmit={handleSubmit}>
             <label for="username">Username: </label>
             <input type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)}/>
             <br></br>
