@@ -48,7 +48,7 @@
 .shoutout-content {
     font-size: 1rem;
     line-height: 1.4;
-    color: #3535c9;
+    color: #545455;
 }
 
 .shoutout-actions {
@@ -123,7 +123,7 @@
 .reply-content {
     font-size: 1rem;
     line-height: 1.4;
-    color: #14171a;
+    color: #3a3b3c;
 }
 
 .reply-actions {
@@ -137,7 +137,8 @@
     margin: 0; /* Remove any default margin */
     font-weight: bold;
     cursor: pointer;
-    color: #1DA1F2;
+    color: rgb(90, 84, 84);
+    text-decoration: none;
 }
 
 .user-profile-pic {
@@ -214,5 +215,42 @@
 }
 
 .link-comment-style {
+    text-decoration: none;
+    color: rgb(83, 80, 80)
+}
+
+.follower-link {
+    display: flex;
+    text-decoration: none;
+    color: rgb(83, 80, 80)
+}
+
+.userpage-card {
+    display: flex;
+    border: 1px solid #e1e8ed;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px 0;
+    max-width: 500px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.userpage-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.editprofile-card {
+    border: 1px solid #e1e8ed;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px 0;
+    max-width: 500px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.userinfo-link {
     text-decoration: none;
 }

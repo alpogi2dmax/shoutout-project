@@ -100,9 +100,15 @@ function UserPage() {
 
     return (
         <div>
-            <img className='user-profile-pic' src={userPage.profile_pic} />
-            <p>{userPage.first_name} {userPage.last_name}</p>
-            {!isFollowing ? <button className='button' onClick={handleFollowClick}>Follow</button> : <button className='button' onClick={handleUnfollowClick}>UnFollow</button>}
+            <div className='userpage-card'>
+                <img className='user-profile-pic' src={userPage.profile_pic} />
+                <div className='userpage-info'>
+                    <p>{userPage.first_name} {userPage.last_name}</p>
+                    {!isFollowing ? <button className='button' onClick={handleFollowClick}>Follow</button> : <button className='button' onClick={handleUnfollowClick}>UnFollow</button>}
+                </div>
+                {/* <p>{userPage.first_name} {userPage.last_name}</p>
+                {!isFollowing ? <button className='button' onClick={handleFollowClick}>Follow</button> : <button className='button' onClick={handleUnfollowClick}>UnFollow</button>} */}
+            </div>
             {userPage && <UserNavBar userPage={userPage}/>}
             <Outlet />
         </div>

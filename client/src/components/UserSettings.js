@@ -16,10 +16,19 @@ function UserSettings() {
 
     if (!user) {return <div>Loading...</div>}
 
+    const handleEditClick = () => {
+        navigate('/user-settings-edit')
+    }
+
     return (
         <div>
-            <img className='user-profile-pic' src={user.profile_pic} />
-            <p>{user.first_name} {user.last_name}</p>
+            <div className='userpage-card'>
+                <img className='user-profile-pic' src={user.profile_pic} />
+                <div className='userpage-info'>
+                    <p>{user.first_name} {user.last_name}</p>
+                    <button className='button' onClick={handleEditClick}>Edit</button>
+                </div>
+            </div>
             <UserSettingsNavBar />
             <Outlet />
         </div>

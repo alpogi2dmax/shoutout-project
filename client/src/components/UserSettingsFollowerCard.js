@@ -1,5 +1,6 @@
 import { useContext } from "react"
 import { UserContext } from "../context/user"
+import { Link } from "react-router-dom"
 
 function UserSettingsFollowerCard({follower}) {
 
@@ -81,8 +82,10 @@ function UserSettingsFollowerCard({follower}) {
     return (
         <div className='follow-card'>
             <div className='follow-header'>
-                <img className='follow-pic' src={follower.profile_pic} alt='Profile picture' />
-                <p className='follow-info'>{follower.first_name} {follower.last_name}</p>
+                <Link className='follower-link' to={`/users/${follower.id}`}>
+                    <img className='follow-pic' src={follower.profile_pic} alt='Profile picture' />
+                    <p className='follow-info'>{follower.first_name} {follower.last_name}</p>
+                </Link>
                 {/* <button>Follow</button> */}
                 {!isFollowing ? <button className='button' onClick={handleFollowClick}>Follow</button> : <button className='button' onClick={handleUnfollowClick}>UnFollow</button>}
             </div>

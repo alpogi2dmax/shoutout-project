@@ -64,7 +64,7 @@ function CreateReply({comment, setComment}) {
                 <form onSubmit={formik.handleSubmit}>
                     <textarea style={{fontFamily: 'Arial, Helvetica, sans-serif'}} className='textarea-custom' type='textarea' name='reply' id='reply' value={formik.values.reply} placeholder="Post a reply" onChange={formik.handleChange} />
                     <p style={{color: "red" }}> {formik.errors.reply}</p>
-                    <button type='submit'>Post</button>
+                    <button className='button' type='submit'>Reply</button>
                 </form>
             </div>
         </div>

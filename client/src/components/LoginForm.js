@@ -50,7 +50,7 @@ function LoginForm() {
             <label for="password">Password: </label>
             <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
             <br></br>
-            <input className='button-23' type="submit" value="Login"/>
+            <input className='button' type="submit" value="Login"/>
             {errors.map((err) => (
                 <p key={err}>{err}</p>
         ))}

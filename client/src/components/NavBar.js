@@ -24,6 +24,7 @@ function NavBar() {
             <h1>Shoutout Project!</h1>
             <nav>
                 <Link className='button' to='/'>Home</Link>
+                <Link className='button' to='/explore'>Explore</Link>
                 {user ? (
                     <button className='button' onClick={handleLogOutClick}>Logout</button>
                 ) : (

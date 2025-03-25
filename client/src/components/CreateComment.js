@@ -52,7 +52,7 @@ function CreateComment() {
                 <form onSubmit={formik.handleSubmit}>
                     <textarea style={{fontFamily: 'Arial, Helvetica, sans-serif'}} className='textarea-custom' type='textarea' name='comment' id='comment' value={formik.values.comment} placeholder="What's happening..." onChange={formik.handleChange} />
                     <p style={{color: "red" }}> {formik.errors.comment}</p>
-                    <button type='submit'>Post</button>
+                    <button className='button' type='submit'>Post</button>
                 </form>
             </div>
         </div>

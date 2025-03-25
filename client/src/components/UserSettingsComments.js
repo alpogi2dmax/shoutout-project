@@ -11,7 +11,7 @@ function UserSettingsComments() {
 
     return (
         <div>
-            <CreateComment />
+            {/* <CreateComment /> */}
             {comments.map(comment => (
                 <UserSettingsCommentCard key={comment.id} comment={comment}/>
             ))}

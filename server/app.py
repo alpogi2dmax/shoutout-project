@@ -87,13 +87,35 @@ class UsersByID(Resource):
 
 api.add_resource(UsersByID,'/users/<int:id>')
 
+class UsersBySearch(Resource):
+
+    def get(self, search):
+        search_term = f"%{search.lower()}%"
+        users = User.query.filter(
+            (User.username.ilike(search_term)) |
+            (User.email.ilike(search_term)) |
+            (User.first_name.ilike(search_term)) |
+            (User.last_name.ilike(search_term))
+        ).all()
+        print(users)
+
+        # Serialize the filtered users
+        response = make_response(users_schema.dump(users), 200)
+        return response
+    
+api.add_resource(UsersBySearch,'/users/<string:search>')
+
 class Comments(Resource):
 
     def get(self):
 
+        user = User.query.filter_by(id=session['user_id']).first()
         comments = Comment.query.order_by(Comment.created_date.desc()).all()
+        user_followers = [follower.id for follower in user.followers]
+        user_followers.append(user.id)
+        filtered_comments = [comment for comment in comments if comment.commenter.id in user_followers]
         # comments = Comment.query.all()
-        response = comments_schema.dump(comments), 200
+        response = comments_schema.dump(filtered_comments), 200
         return response
     
     def post(self):

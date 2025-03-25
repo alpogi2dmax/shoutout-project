@@ -224,6 +224,7 @@ class UserSchema(ma.SQLAlchemySchema):
     replies = ma.Method("get_replies")
     followers = ma.Nested(lambda: UserSchema, many=True, only=('id', 'first_name', 'last_name', 'profile_pic', 'username'))
     followed = ma.Nested(lambda: UserSchema, many=True, only=('id', 'first_name', 'last_name', 'profile_pic', 'username'))
+    search_string = ma.Method('get_search_string')
 
     url = ma.Hyperlinks(
         {
@@ -249,6 +250,11 @@ class UserSchema(ma.SQLAlchemySchema):
         sorted_replies = sorted(replies, key=lambda x: x.created_date, reverse=True)
         reply_data = replies_schema.dump(sorted_replies)
         return reply_data
+    
+    def get_search_string(self, user):
+        # Concatenate the fields into a single search string
+        return f"{user.username} {user.email} {user.first_name} {user.last_name}".lower()
+
 
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
