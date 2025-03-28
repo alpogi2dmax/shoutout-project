@@ -5,8 +5,9 @@ from marshmallow import Schema, fields
 from sqlalchemy.orm import validates
 from sqlalchemy import CheckConstraint
 from email_validator import validate_email, EmailNotValidError
+from datetime import datetime
 
-from config import db, bcrypt, ma, datetime
+from config import db, bcrypt, ma
 
 # Models go here!
 
