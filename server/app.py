@@ -5,9 +5,10 @@
 # Remote library imports
 from flask import request, make_response, session
 from flask_restful import Resource
+from datetime import datetime
 
 # Local imports
-from config import app, db, api, datetime
+from config import app, db, api
 # Add your model imports
 from models import User, Comment, Reply, Like, ReplyLike, Follow, user_schema, users_schema, comment_schema, comments_schema, reply_schema, replies_schema, like_schema, likes_schema, reply_like_schema, reply_likes_schema, follow_schema, follows_schema
 
