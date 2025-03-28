@@ -57,8 +57,8 @@ function Explore() {
     if (user) {
         return (
             <div>
-                <input placeholder="Search..." value={search} onChange={handleChange}/>
-                <button onClick={handleClick}>Search</button>
+                <input className='search-bar' size='58' placeholder="Search..." value={search} onChange={handleChange}/>
+                <button className='button' onClick={handleClick}>Search</button>
                 <h2>People</h2>
                 <ExplorePeopleList people={people}/>
                 <h2>Comments</h2>

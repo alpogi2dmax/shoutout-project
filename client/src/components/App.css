@@ -254,3 +254,11 @@
 .userinfo-link {
     text-decoration: none;
 }
+
+.search-bar {
+    max-width: 1000px;
+    height: 25px;
+    border: 1px solid #e1e8ed;
+    border-radius: 20px;
+    padding: 5px 10px
+}

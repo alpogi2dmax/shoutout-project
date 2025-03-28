@@ -9,13 +9,13 @@ function CommentProvider({children}) {
     const { user } = useContext(UserContext)
     const [ comments, setComments] = useState([])
 
-    useEffect(() => {
-        if (user) {
-            fetch('/comments')
-            .then(r => r.json())
-            .then(data => setComments(data))
-        }
-    }, [user])
+    // useEffect(() => {
+    //     if (user) {
+    //         fetch('/comments')
+    //         .then(r => r.json())
+    //         .then(data => setComments(data))
+    //     }
+    // }, [user])
 
     const handleLogoutComments = () => {
           setComments([])
