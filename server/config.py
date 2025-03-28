@@ -33,8 +33,6 @@ ma = Marshmallow(app)
 
 bcrypt = Bcrypt(app)
 
-datetime = datetime
-
 # Instantiate REST API
 api = Api(app)
 
