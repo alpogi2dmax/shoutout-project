@@ -1,5 +1,5 @@
 import CommentCard from "./CommentCard"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { UserContext } from "../context/user"
 import { CommentContext } from "../context/comment"
 import './App.css'
@@ -9,12 +9,13 @@ function CommentList() {
     const { user } = useContext(UserContext)
     const { comments, setComments } = useContext(CommentContext)
 
-    if (user) {
-        fetch('/comments')
-        .then(r => r.json())
-        .then(data => setComments(data))
-    }
-    
+    useEffect(() => {
+        if (user) {
+            fetch('/comments')
+            .then(r => r.json())
+            .then(data => setComments(data))
+        }
+    }, [])
 
     return (
         <div>

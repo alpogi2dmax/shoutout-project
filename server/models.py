@@ -7,7 +7,7 @@ from sqlalchemy import CheckConstraint
 from email_validator import validate_email, EmailNotValidError
 from datetime import datetime
 
-from server.config import db, bcrypt, ma
+from config import db, bcrypt, ma
 
 # Models go here!
 
